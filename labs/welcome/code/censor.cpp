@@ -5,7 +5,7 @@
 using namespace std;
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        cerr << "USAGE: censor [length]" << endl;
+        cout << "USAGE: censor [length]" << endl;
         exit(1);    
     }
     string word, sentence;
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
                 words.push_back(word);
             }
             word.clear();
-        }
+        }   
     }
     if ((words.size() == 0 || (!isblank(sentence[sentence.length() - 1]))) && word.length() != wordCensor){
         words.push_back(word);
