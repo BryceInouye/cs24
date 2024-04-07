@@ -16,20 +16,21 @@ int main(int argc, char *argv[]) {
         if (!isblank(sentence[i])) {
             word += sentence[i];
         } else if (isblank(sentence[i]) && word.length() != 0) {
-            words.push_back(word);
+            if (word.length() != wordCensor) {
+                words.push_back(word);
+            }
             word.clear();
         }
     }
-    if (words.size() == 0 || (!isblank(sentence[sentence.length() - 1]))){
+    if ((words.size() == 0 || (!isblank(sentence[sentence.length() - 1]))) && word.length() != wordCensor){
         words.push_back(word);
     }
     for (size_t j = 0; j < words.size(); j++) {
-        if (words[j].length() != wordCensor){
-            cout << words[j];
-            if(j != words.size() - 1){
-                cout << " ";
-            }
+        cout << words[j];
+        if(j != words.size() - 1){
+            cout << " ";
         }
+        
     }
     cout << endl;
 }
