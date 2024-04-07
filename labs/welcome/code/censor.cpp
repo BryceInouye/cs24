@@ -15,21 +15,12 @@ int main(int argc, char *argv[]) {
     for (size_t i = 0; i < sentence.length(); i++) {
         if (!isblank(sentence[i])) {
             word += sentence[i];
-<<<<<<< HEAD
         } else if (isblank(sentence[i]) && word.length() != 0) {
             if (word.length() != wordCensor) {
                 words.push_back(word);
-=======
-        } else {
-            if (word.length() != wordCensor) {
-                cout << word;
-                if (i + 1 != sentence.length()) {
-                    cout << " ";
-                }
->>>>>>> parent of f922098 (Fixed censor.cpp)
             }
             word.clear();
-        }   
+        }
     }
     if ((words.size() == 0 || (!isblank(sentence[sentence.length() - 1]))) && word.length() != wordCensor){
         words.push_back(word);
@@ -39,7 +30,7 @@ int main(int argc, char *argv[]) {
         if(j != words.size() - 1){
             cout << " ";
         }
-        
+       
     }
     cout << endl;
 }
