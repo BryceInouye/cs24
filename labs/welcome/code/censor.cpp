@@ -16,9 +16,17 @@ int main(int argc, char *argv[]) {
         } else {
             if (word.length() != wordCensor && word.length() != 0) {
                 cout << word;
-                if (i + 1 != sentence.length()) {
-                    cout << " ";
+                size_t j = i;
+                bool lastWord = true;
+                while (j < sentence.length()){
+                    if (!isblank(sentence[j])) {
+                        lastWord = false;
+                    }
+                    j++;
                 }
+                    if (!lastWord) {
+                        cout << " ";
+                    }
             }
             word.clear();
         }
