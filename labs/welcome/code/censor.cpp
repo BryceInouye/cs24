@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
             word.clear();
         }
     }
-    if (words.size() == 0){
+    if (words.size() == 0 || (!isblank(sentence[sentence.length() - 1]))){
         words.push_back(word);
     }
     for (size_t j = 0; j < words.size(); j++) {
