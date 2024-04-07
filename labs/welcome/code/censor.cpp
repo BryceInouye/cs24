@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
         if (!isblank(sentence[i])) {
             word += sentence[i];
         } else {
-            if (word.length() != wordCensor) {
+            if (word.length() != wordCensor && word.length() != 0) {
                 cout << word;
                 if (i + 1 != sentence.length()) {
                     cout << " ";
