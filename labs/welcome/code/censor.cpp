@@ -14,19 +14,18 @@ int main(int argc, char *argv[]) {
         if (!isblank(sentence[i])) {
             word += sentence[i];
         } else {
-            if (word.length() != wordCensor && word.length() != 0) {
+            if (word.length() != wordCensor) {
                 cout << word;
-                size_t j = i;
-                bool lastWord = true;
-                while (j < sentence.length()){
-                    if (!isblank(sentence[j])) {
-                        lastWord = false;
+                bool lastWord = false;
+                for (size_t k = i; k < sentence.length(); k++) {
+                    if (!isblank(sentence[k])) {
+                        lastWord = true;
                     }
-                    j++;
+                    k++;
                 }
-                    if (!lastWord) {
-                        cout << " ";
-                    }
+                if (lastWord) {
+                    cout << " ";
+                }
             }
             word.clear();
         }
