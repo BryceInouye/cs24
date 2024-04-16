@@ -56,9 +56,9 @@ void FibVec::push(int value) {
 }
 
 int FibVec::lookup(size_t index) const {
-    if (index > numItems) {
+    if (index >= numItems) {
         throw std::out_of_range("Index out of range");
-    }    
+    }     
     return fibVector[index];
 }
 
@@ -72,7 +72,7 @@ void FibVec::newFibVec() {
 }
 
 void FibVec::insert(int val, size_t index) {
-    if (index > size) {
+    if (index > numItems) {
         throw std::out_of_range("Index out of range");
     }
     if (numItems == size){
@@ -98,9 +98,9 @@ void FibVec::insert(int val, size_t index) {
 }
 
 int FibVec::remove(size_t index) {
-  if (index >= size) {
-    throw std::out_of_range("Index out of range");
-  }
+    if (index >= numItems) {
+        throw std::out_of_range("Index out of range");
+    }
   /*numItems--; // Update numItems after potential resize
   if (numItems < fibNum - fibNum0) {
     size_t temp = fibNum - fibNum0;
