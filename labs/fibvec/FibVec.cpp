@@ -1,3 +1,4 @@
+
 #include "FibVec.h"
 
 // This provides exception types:
@@ -27,6 +28,21 @@ size_t FibVec::capacity() const {
 
 size_t FibVec::count() const {
   return numItems;
+}
+
+int FibVec::pop() {
+  if (numItems == 0) {
+    throw std::underflow_error("Vector is empty");
+  }
+  numItems--;
+  if (numItems < fibNum0) {
+    size_t temp = fibNum - fibNum0;
+    size = fibNum0;
+    fibNum = fibNum0;
+    fibNum0 = temp;
+    newFibVec();
+  }
+  return fibVector[numItems];
 }
 
 void FibVec::push(int value) {
@@ -87,50 +103,17 @@ void FibVec::insert(int val, size_t index) {
   fibVector = newFibVector;
 }
 
-int FibVec::pop() {
-  if (numItems == 0) {
-    throw std::underflow_error("Vector is empty");
-  }
-  numItems--;
-
-  // Update capacity based on Fibonacci sequence
-  if (numItems < fibNum0) {
-    fibNum = fibNum0;
-    fibNum0 = fibNum - fibNum0;
-    size = fibNum0;
-    newFibVec();
-  }
-  
-  return fibVector[numItems];
-}
-
 int FibVec::remove(size_t index) {
-  if (index >= numItems) {
+  if (index > size) {
     throw std::out_of_range("Index out of range");
   }
-
   if (numItems < fibNum0) {
-    fibNum = fibNum0;
-    fibNum0 = fibNum - fibNum0;
+    size_t temp = fibNum - fibNum0;
     size = fibNum0;
+    fibNum = fibNum0;
+    fibNum0 = temp;
     newFibVec();
   }
-
-  numItems--; // Update numItems after potential resize
-  int removedItem = fibVector[index];
-  int* newFibVector = new int[size];
-  size_t j = 0;
-  for (size_t i = 0; i < numItems + 1; i++) {
-    if (i == index) {
-      continue;
-    }
-    newFibVector[j++] = fibVector[i];
-  }
-  delete[] fibVector;
-  fibVector = newFibVector;
-  return removedItem;
-}
-
   numItems--; // Update numItems after potential resize
   int removedItem = fibVector[index];
   int* newFibVector = new int[size];
