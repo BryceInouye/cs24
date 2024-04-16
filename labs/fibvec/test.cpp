@@ -9,6 +9,7 @@ int main() {
 
   std::cout << "Popped: " << fibVec.pop() << std::endl;
   std::cout << "Size: " << fibVec.capacity() << std::endl;
+  std::cout << "numItems " << fibVec.count() << std::endl;
 
   // Test 2: Pop twice
   fibVec.push(300);
@@ -16,6 +17,7 @@ int main() {
   std::cout << "Popped: " << fibVec.pop() << std::endl;
   std::cout << "Popped: " << fibVec.pop() << std::endl;
   std::cout << "Size: " << fibVec.capacity() << std::endl;
+  std::cout << "numItems " << fibVec.count() << std::endl;
 
   // Test 3: Pop five times
   for (int i = 1; i <= 5; ++i) {
@@ -27,6 +29,7 @@ int main() {
   }
 
   std::cout << "Size: " << fibVec.capacity() << std::endl;
+  std::cout << "numItems " << fibVec.count() << std::endl;
 
   return 0;
 }
