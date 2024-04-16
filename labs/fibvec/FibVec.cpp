@@ -28,20 +28,24 @@ size_t FibVec::count() const{
     return numItems;
 }
 
-int FibVec::pop(){
-    if (numItems == 0) {
-        throw std::underflow_error("Vector is empty");
-    }
-    numItems--; 
-    if (numItems < fibNum - fibNum0){
-        size_t temp = fibNum - fibNum0;
-        size = fibNum0;
-        fibNum = fibNum0;
-        fibNum0 = temp;
-        newFibVec();
-    }
-    return fibVector[numItems];
+int FibVec::pop() {
+  if (numItems == 0) {
+    throw std::underflow_error("Vector is empty");
+  }
+  numItems--;
+
+  // Resize if needed based on Fibonacci sequence (f(n-2))
+  if (numItems < fibNum0) {
+    size = fibNum;  // New size is f(n-1)
+    fibNum0 = fibNum;  // Update fibonacci numbers
+    fibNum = fibNum + fibNum0;  // Calculate f(n)
+    newFibVec();  // Resize the vector
+  }
+
+  // Access element from the new vector after potential resize
+  return fibVector[numItems];
 }
+
 
 void FibVec::push(int value) {
     if (numItems == size) {
@@ -71,7 +75,7 @@ void FibVec::newFibVec() {
 }
 
 void FibVec::insert(int val, size_t index) {
-    if (index >= size) {
+    if (index > size) {
         throw std::out_of_range("Index out of range");
     }
     if (numItems == size){
@@ -97,7 +101,7 @@ void FibVec::insert(int val, size_t index) {
 }
 
 int FibVec::remove(size_t index) {
-  if (index >= size) {
+  if (index > size) {
     throw std::out_of_range("Index out of range");
   }
   if (numItems < fibNum - fibNum0){
