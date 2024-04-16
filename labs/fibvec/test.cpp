@@ -2,36 +2,33 @@
 #include <iostream>
 
 int main() {
-    // Create a FibVec object
-    FibVec fibVec;
+  // Test 1: Pop once
+  FibVec fibVec;
+  fibVec.push(100);
+  fibVec.push(200);
 
-    // Test push operations
-    fibVec.push(10);
-    fibVec.push(20);
-    fibVec.push(30);
-    fibVec.push(40);
+  std::cout << "Popped: " << fibVec.pop() << std::endl;
+  std::cout << "Size: " << fibVec.capacity() << std::endl;
 
-    // Test pop operations
-    std::cout << "Capacity: " << fibVec.capacity() << std::endl;
-    std::cout << "Count: " << fibVec.capacity() << std::endl;
-    std::cout << "Popped value: " << fibVec.pop() << std::endl;
-    std::cout << "Capacity: " << fibVec.capacity() << std::endl;
-    std::cout << "Count: " << fibVec.capacity() << std::endl;
-    std::cout << "Popped value: " << fibVec.pop() << std::endl;
-    std::cout << "Capacity: " << fibVec.capacity() << std::endl;
-    std::cout << "Count: " << fibVec.capacity() << std::endl;
-    std::cout << "Popped value: " << fibVec.pop() << std::endl;
-    std::cout << "Capacity: " << fibVec.capacity() << std::endl;
-    std::cout << "Count: " << fibVec.capacity() << std::endl;
+  // Test 2: Pop twice
+  fibVec.push(300);
 
-    // Test popping from an empty vector
-    try {
-        std::cout << "Popped value: " << fibVec.pop() << std::endl;
-    } catch (const std::underflow_error& e) {
-        std::cerr << "Caught exception during pop: " << e.what() << std::endl;
-    }
+  std::cout << "Popped: " << fibVec.pop() << std::endl;
+  std::cout << "Popped: " << fibVec.pop() << std::endl;
+  std::cout << "Size: " << fibVec.capacity() << std::endl;
 
-    return 0;
+  // Test 3: Pop five times
+  for (int i = 1; i <= 5; ++i) {
+    fibVec.push(i);
+  }
+
+  for (int i = 5; i >= 1; --i) {
+    std::cout << "Popped: " << fibVec.pop() << std::endl;
+  }
+
+  std::cout << "Size: " << fibVec.capacity() << std::endl;
+
+  return 0;
 }
 
 
