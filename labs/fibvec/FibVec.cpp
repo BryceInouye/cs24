@@ -1,4 +1,3 @@
-
 #include "FibVec.h"
 
 // This provides exception types:
@@ -11,107 +10,98 @@ using namespace std;
 
 // The default constructor creates an empty vector with a capacity of f(2) = 1.
 FibVec::FibVec() {
-  size = 1;
-  numItems = 0;
-  fibNum = 1;
-  fibNum0 = 1;
-  fibVector = new int[fibNum];
-}
-
-FibVec::~FibVec() {
-  delete[] fibVector; // Deallocate memory before destruction
+            size = 1;
+            numItems = 0;
+            fibNum = 1;
+            fibNum0 = 1;
+            fibVector = new int[fibNum];
+        }
+FibVec::~FibVec(){
+    delete[] fibVector;
 }
 
 size_t FibVec::capacity() const {
-  return size;
+    return size;
 }
 
-size_t FibVec::count() const {
-  return numItems;
+size_t FibVec::count() const{
+    return numItems;
 }
 
-int FibVec::pop() {
-  if (numItems == 0) {
-    throw std::underflow_error("Vector is empty");
-  }
-  numItems--;
-  if (numItems < fibNum0) {
-    size_t temp = fibNum - fibNum0;
-    size = fibNum0;
-    fibNum = fibNum0;
-    fibNum0 = temp;
-    newFibVec();
-  }
-  return fibVector[numItems];
+int FibVec::pop(){
+    if (numItems == 0) {
+        throw std::underflow_error("Vector is empty");
+    }
+    int r = fibVector[numItems-1];
+    numItems--; 
+    if (numItems < fibNum - fibNum0){
+        size_t temp = fibNum - fibNum0;
+        size = fibNum0;
+        fibNum = fibNum0;
+        fibNum0 = temp;
+        newFibVec();
+    }
+    return r;
 }
 
 void FibVec::push(int value) {
-  if (numItems == size) {
-    size = fibNum + fibNum0;
-    fibNum0 = fibNum;
-    fibNum = size;
-    newFibVec();
-  }
-  fibVector[numItems] = value;
-  numItems++;
+    if (numItems == size) {
+        size = fibNum + fibNum0;
+        fibNum0 = fibNum;
+        fibNum = size;
+        newFibVec();
+    }
+    fibVector[numItems] = value;
+    numItems++;
 }
 
 int FibVec::lookup(size_t index) const {
-  if (index > numItems) {
-    throw std::out_of_range("Index out of range");
-  }
-  return fibVector[index];
+    if (index > numItems) {
+        throw std::out_of_range("Index out of range");
+    }    
+    return fibVector[index];
 }
 
 void FibVec::newFibVec() {
-  int* newFibVector = new int[size]; // Allocate new memory
-
-  // Copy elements from old vector to new vector
-  for (size_t i = 0; i < numItems; i++) {
-    newFibVector[i] = fibVector[i];
-  }
-
-  // Deallocate the old memory (after copying elements)
-  delete[] fibVector;
-
-  // Assign the new memory to fibVector
-  fibVector = newFibVector;
+    int* newFibVector = new int[size];
+    for (size_t i = 0; i < numItems; i++) {
+        newFibVector[i] = fibVector[i];
+    }
+    delete[] fibVector;
+    fibVector = newFibVector;    
 }
 
 void FibVec::insert(int val, size_t index) {
-  if (index > size) {
-    throw std::out_of_range("Index out of range");
-  }
-  if (numItems == size) {
-    size = fibNum + fibNum0;
-    fibNum0 = fibNum;
-    fibNum = size;
-  }
-  numItems++;
-  int* newFibVector = new int[size];
-  size_t j = 0;
-  for (size_t i = 0; i < numItems; i++) {
-    if (i < index) {
-      newFibVector[j++] = fibVector[i];
-    } else if (i == index) {
-      newFibVector[j++] = val;
-    } else {
-      newFibVector[j++] = fibVector[i - 1];
+    if (index > size) {
+        throw std::out_of_range("Index out of range");
     }
-  }
-  delete[] fibVector;
-  fibVector = newFibVector;
+    if (numItems == size){
+        size = fibNum + fibNum0;
+        fibNum0 = fibNum;
+        fibNum = size;
+    }
+    numItems++;
+    int* newFibVector = new int[size];
+    size_t j = 0;
+    for (size_t i = 0; i < numItems; i++) {
+        if (i < index) {
+            newFibVector[j++] = fibVector[i];
+        } else if (i == index) {
+            newFibVector[j++] = val;
+        } else {
+            newFibVector[j++] = fibVector[i-1];
+        }
+    }
+    delete[] fibVector;
+    fibVector = newFibVector;
+
 }
 
 int FibVec::remove(size_t index) {
   if (index > size) {
     throw std::out_of_range("Index out of range");
   }
-  if (numItems < fibNum0) {
-    size_t temp = fibNum - fibNum0;
-    size = fibNum0;
-    fibNum = fibNum0;
-    fibNum0 = temp;
+  if (numItems < fibNum - fibNum0) {
     newFibVec();
   }
   numItems--; // Update numItems after potential resize
