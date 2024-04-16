@@ -98,13 +98,17 @@ void FibVec::insert(int val, size_t index) {
 }
 
 int FibVec::remove(size_t index) {
-  if (index > size) {
+  if (index >= size) {
     throw std::out_of_range("Index out of range");
   }
+  numItems--; // Update numItems after potential resize
   if (numItems < fibNum - fibNum0) {
+    size_t temp = fibNum - fibNum0;
+    size = fibNum0;
+    fibNum = fibNum0;
+    fibNum0 = temp;
     newFibVec();
   }
-  numItems--; // Update numItems after potential resize
   int removedItem = fibVector[index];
   int* newFibVector = new int[size];
   size_t j = 0;
