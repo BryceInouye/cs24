@@ -116,12 +116,15 @@ int FibVec::remove(size_t index) {
     if (i == index) {
       continue;
     }
-    newFibVector[j++] = fibVector[i];
+    if (i < numItems) {
+      newFibVector[j++] = fibVector[i];
+    }
   }
   delete[] fibVector;
   fibVector = newFibVector;
   return removedItem;
 }
+
 
 
 // The destructor cleans up all allocated memory owned by the class.
