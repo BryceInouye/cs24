@@ -5,15 +5,24 @@
 #include <cstddef>
 
 class FibVec {
-  // Member Variables
+    public:
+        FibVec();
+        ~FibVec();
+        size_t capacity() const;
+        size_t count() const;
+        void insert(int val, size_t index);
+        int lookup(size_t index) const;
+        int pop();
+        void push(int value);
+        void remove(size_t index);
+        void newFibVec();
 
-  // Helper Functions
-
-public:
-  // Constructor and Destructor
-
-  // Member Functions
-
+    private:
+        int* fibVector;
+        size_t size;
+        size_t numItems;
+        size_t fibNum;
+        size_t fibNum0;
 };
 
 #endif
