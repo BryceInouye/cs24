@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
-using namespace std;
+//using namespace std;
 
 // FibVec Function Implementations
 
@@ -101,7 +101,7 @@ int FibVec::remove(size_t index) {
   if (index >= size) {
     throw std::out_of_range("Index out of range");
   }
-  numItems--; // Update numItems after potential resize
+  /*numItems--; // Update numItems after potential resize
   if (numItems < fibNum - fibNum0) {
     size_t temp = fibNum - fibNum0;
     size = fibNum0;
@@ -122,7 +122,21 @@ int FibVec::remove(size_t index) {
   }
   delete[] fibVector;
   fibVector = newFibVector;
-  return removedItem;
+  return removedItem;*/
+  int r = fibVector[index];
+  for(size_t i = index; i < numItems -1; i++)
+  {
+    fibVector[i] = fibVector[i+1];
+  }
+  numItems--;
+  if (numItems < fibNum - fibNum0) {
+    size_t temp = fibNum - fibNum0;
+    size = fibNum0;
+    fibNum = fibNum0;
+    fibNum0 = temp;
+    newFibVec();
+  }
+  return r;
 }
 
 
