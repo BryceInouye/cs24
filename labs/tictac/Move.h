@@ -17,6 +17,7 @@ struct Move {
 
   // The constructor parses a string.
   Move(const std::string& input);
+  void checkSpace(char x);
 
   // Helper to render a Move as text.
   std::string to_string() const;
