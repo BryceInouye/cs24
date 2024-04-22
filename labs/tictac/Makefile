@@ -1,9 +1,9 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra
 
-SRCS = tests.cpp Move.cpp
+SRCS = move-tests.cpp Move.cpp
 OBJS = $(SRCS:.cpp=.o)
-TARGET = tests
+TARGET = move-tests
 
 .PHONY: all clean
 
