@@ -4,46 +4,52 @@
 
 
 Move::Move(const std::string& input) {
-    if (isdigit(input[0]) && input[0] <= '9' && input[0] >= '1') {
-        number = input[0] - '0';
+    size_t index = 0;
+    if (isdigit(input[index]) && input[index] <= '9' && input[index] >= '1') {
+        number = input[index] - '0';
     } else {
         throw ParseError("move number error (1-9)");
     }
-    checkSpace(input[1]);
-    if (input[2] == 'X' || input[2] == 'O' || input[2] == 'x' || input[2] == 'o') {
-        player = toupper(input[2]);
+    index++;
+    checkSpace(input, index);
+    if (input[index] == 'X' || input[index] == 'O' || input[index] == 'x' || input[index] == 'o') {
+        player = toupper(input[index]);
     } else {
         throw ParseError("player error");
     }
-    checkSpace(input[3]);
-    if (((input[4] >= 'A' && input[4] <= 'C') || (input[4] >= 'a' && input[4] <= 'c')) && (input[5] >= '1' && input[5] <= '3')) {
-        row = toupper(input[4]) - 65;
-        column = input[5] - '1';
-    } else if ((input[4] >= 'A' && input[4] <= 'C') && !(input[5] >= '1' && input[5] <= '3')) {
-        throw ParseError("invalid column error (1-3)");
-    } else if (!(input[4] >= 'A' && input[4] <= 'C') && (input[5] >= '1' && input[5] <= '3')) {
-        throw ParseError("invalid row error (A-C)");
+    index++;
+    checkSpace(input, index);
+    if ((input[index] >= 'A' && input[index] <= 'C') || (input[index] >= 'a' && input[index] <= 'c')) {
+        row = toupper(input[index]) - 65;
     } else {
-        throw ParseError("column & row error");
+        throw ParseError("invalid row error (A-C)");
     }
-    if (input.size() == 6) {
+    index++;
+
+    //column check
+    if (input[index] >= '1' && input[index] <= '3') {
+        column = input[index] - '1';
+    } else {
+        throw ParseError("invalid column error (1-3)");
+    }
+    index++;
+    if (index == input.size()) {
         return;
+    } else if (!isblank(input[index])) {
+        throw ParseError("invalid character after column (whitespace)");
     }
-    if (!isspace(input[6])){
-        throw ParseError("random character after coordinate");
-    }
-    if (input.size() == 7){
+    checkSpace(input, index);
+    if (isblank(input[index - 1]) || input[index] == '#') {
         return;
+    } else {
+        throw ParseError("invalid character after optional whitespace (#)");
     }
-    if (input[7] != '#') {
-        throw ParseError("random character after space");
-    }
-    return; //return happens since comment is discarded, we only care if comment is formatted properly
 }
-void Move::checkSpace(char x) {
-    if (!isspace(x)) {
-        throw ParseError("space error: " + std::to_string(x));
+void Move::checkSpace(const std::string& input, size_t& index) {
+    while (index < input.size() && isblank(input[index])) {
+        index++;
     }
+    return;
 }
 std::string Move::to_string() const{
     std::string move;
