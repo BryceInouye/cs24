@@ -11,8 +11,18 @@ int main() {
         if (line.empty()) {
             break;
         }
-        Move move(line);
-        board.turn(move);
+        try {
+            Move move(line);
+            board.turn(move);
+        }
+        catch (const ParseError& e) {
+            std::cout << "Parse error.\n";
+            return 1;
+        }
+        catch (const InvalidMove& e) {
+            std::cout << "Invalid move.\n";
+            return 2;
+        }
     }
     
     size_t result = board.getGameState();
@@ -35,4 +45,5 @@ int main() {
         default:
             std::cout <<"something went wrong" << std::endl;
     }
+    return 0;
 }
