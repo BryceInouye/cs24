@@ -44,9 +44,9 @@ Move::Move(const std::string& input) {
     } else {
         throw ParseError("invalid character after optional whitespace (#)");
     }
-}
+}//  || (input[index] != '\t')
 void Move::checkSpace(const std::string& input, size_t& index) {
-    if (!isblank(input[index])) {
+    if ((!isspace(input[index]))) { 
         throw ParseError("no space error");
     }
     while (index < input.size() && isblank(input[index])) {

@@ -52,8 +52,15 @@ int main() {
     // testMoveParser("  # Only a comment");
     // testMoveParser("  # C   omment without any move details");
     // testMoveParser("6 # Comment after move number x C3");
-    testMoveParser("2XA2");
-
+    // testMoveParser("2XA2");
+    // testMoveParser("1 X B2#");
+    // testMoveParser("1 X B2#invalid_comment");
+    // testMoveParser("1 X B2#");
+    // testMoveParser("1 X B2# This is comment 1 ## This is comment 2");
+    // testMoveParser("# This is a comment only");
+    testMoveParser("1 X B2\t# This is a comment");
+    // std::cout << "1 X B2\t# This is a comment";
+    // testMoveParser("1 X B2# This is a comment");
 
     return 0;
 }
