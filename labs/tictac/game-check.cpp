@@ -24,6 +24,16 @@ int main() {
             return 2;
         }
     }
+    try {
+        std::string line;
+        std::getline(std::cin, line);
+        if (!line.empty()) {
+            throw InvalidMove("extra lines");
+        }
+    } catch (const InvalidMove& e) {
+        std::cout << "Invalid move.\n";
+        return 2;
+    }
     
     size_t result = board.getGameState();
     switch (result) {

@@ -1,19 +1,30 @@
+# Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra
 
-SRCS = move-tests.cpp Move.cpp
-OBJS = $(SRCS:.cpp=.o)
-TARGET = move-tests
+# Source and object files
+GAMECHECK_SRC = game-check.cpp Board.cpp Move.cpp
+GAMECHECK_OBJ = $(GAMECHECK_SRC:.cpp=.o)
 
-.PHONY: all clean
+# Target
+GAMECHECK = game-check
 
-all: $(TARGET)
+# Phony targets
+.PHONY: all clean gamecheck
 
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# Build all targets
+all: gamecheck
 
+# Build gamecheck
+gamecheck: $(GAMECHECK_OBJ)
+	$(CXX) $(CXXFLAGS) -o $(GAMECHECK) $(GAMECHECK_OBJ)
+
+# Compile individual source file
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Remove object files and executable
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(GAMECHECK_OBJ) $(GAMECHECK)
+
+
