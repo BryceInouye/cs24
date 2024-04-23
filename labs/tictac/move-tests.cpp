@@ -15,37 +15,45 @@ void testMoveParser(const std::string& input) {
 
 int main() {
     // positive test cases
-    std::cout << "positive test cases: " << std::endl;
-    testMoveParser("2 X A2"); // Uppercase letters
-    testMoveParser("7 O C1");
-    testMoveParser("3 x a3"); // Lowercase letters
-    testMoveParser("8 o c2");
-    testMoveParser("6 x B2"); // Mix of upper and lowercase
-    testMoveParser("7 O b3");
+    // std::cout << "positive test cases: " << std::endl;
+    // testMoveParser("2 X A2"); // Uppercase letters
+    // testMoveParser("7 O C1");
+    // testMoveParser("3 x a3"); // Lowercase letters
+    // testMoveParser("8 o c2");
+    // testMoveParser("6 x B2"); // Mix of upper and lowercase
+    // testMoveParser("7 O b3");
 
-    // negative test cases
-    std::cout << "\nnegative test cases: " << std::endl;
-    testMoveParser("0 X A1");  // Move number out of range
-    testMoveParser("5 Z A1");  // Invalid player code
-    testMoveParser("3 X D2");  // Invalid row
-    testMoveParser("2 X A4");  // Invalid column
+    // // negative test cases
+    // std::cout << "\nnegative test cases: " << std::endl;
+    // testMoveParser("0 X A1");  // Move number out of range
+    // testMoveParser("5 Z A1");  // Invalid player code
+    // testMoveParser("3 X D2");  // Invalid row
+    // testMoveParser("2 X A4");  // Invalid column
 
-    // more test cases
-    std::cout << "\nMore Test cases: " << std::endl;
-    testMoveParser("1 X A1  ");
-    testMoveParser("9 O C3 ");
-    testMoveParser("4 X B3 # this is a comment"); // Comment in correct format
-    testMoveParser("6 O C2  "); // Extra spaces
-    testMoveParser("6 O C3              "); // Tabs
-    testMoveParser("2 O B2                                    "); // Tabs and spaces mix
+    // // more test cases
+    // std::cout << "\nMore Test cases: " << std::endl;
+    // testMoveParser("1 X A1  ");
+    // testMoveParser("9 O C3 ");
+    // testMoveParser("4 X B3 # this is a comment"); // Comment in correct format
+    // testMoveParser("6 O C2  "); // Extra spaces
+    // testMoveParser("6 O C3              "); // Tabs
+    // testMoveParser("2 O B2                                    "); // Tabs and spaces mix
 
-    // edge cases
-    std::cout << "\nEdge cases: " << std::endl;
-    testMoveParser("");        // Empty input
-    testMoveParser("1  X A1"); // Extra space in input
-    testMoveParser("1 X A2#"); // Comment after the move
-    testMoveParser("5 O C1    #"); // Empty comment
-    testMoveParser("incorrect input"); // Random words
+    // // edge cases
+    // std::cout << "\nEdge cases: " << std::endl;
+    // testMoveParser("");        // Empty input
+    // testMoveParser("1  X A1"); // Extra space in input
+    // testMoveParser("1 X A2#"); // Comment after the move
+    // testMoveParser("5 O C1    #"); // Empty comment
+    // testMoveParser("incorrect input"); // Random words
+    
+    // testMoveParser("5 x A1   # Comment here");
+    // testMoveParser("3 o b2   # lowercase player and row codes");
+    // testMoveParser("  # Only a comment");
+    // testMoveParser("  # C   omment without any move details");
+    // testMoveParser("6 # Comment after move number x C3");
+    testMoveParser("2XA2");
+
 
     return 0;
 }

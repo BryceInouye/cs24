@@ -46,6 +46,9 @@ Move::Move(const std::string& input) {
     }
 }
 void Move::checkSpace(const std::string& input, size_t& index) {
+    if (!isblank(input[index])) {
+        throw ParseError("no space error");
+    }
     while (index < input.size() && isblank(input[index])) {
         index++;
     }
