@@ -15,7 +15,7 @@ class Board {
         int getTurnNumber();
         char getPlayerTurn();
         void turn(const Move& input);
-        void checkTurn(const bool player, size_t turnNum, const std::bitset<9>tempBoard);
+        void checkTurn(const bool player, size_t turnNum);
     
     private:
         size_t gameState; // 0 for not started, 1 for in progress, 2/3 for X/Y win, 4 for tie

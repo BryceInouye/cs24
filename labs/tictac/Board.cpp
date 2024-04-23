@@ -1,6 +1,7 @@
 #include "Errors.h"
 #include "Board.h"
 #include <iostream>
+#include <bitset>
 
 // Space for implementing Board functions.
 size_t Board::getGameState() {
@@ -60,20 +61,18 @@ void Board::turn(const Move& input) {
     bool x;
     x = (input.player == 'X'); // x is the inputted player
 
-    std::bitset<9>tempBoard; 
-    if (playerTurn == true) {
-        tempBoard |= std::bitset<9>(1U << ((input.row * 3) + input.column)); // tempBoard is the proposed changes to board
-    } else {                                                                         // to prevent identical moves on itself
-        tempBoard |= std::bitset<9>(1U << ((input.row * 3) + input.column));
-    }
-
-    checkTurn(x, input.number, tempBoard); // checks if everything makes sense logically
-
+    // std::bitset<9>tempBoard; 
+    // if (playerTurn == true) {
+    //     tempBoard |= std::bitset<9>(1U << ((input.row * 3) + input.column)); // tempBoard is the proposed changes to board
+    // } else {                                                                         // to prevent identical moves on itself
+    //     tempBoard |= std::bitset<9>(1U << ((input.row * 3) + input.column));
+    // }
     if (playerTurn == true) { // putting input on the board if all checkTurn tests pass
-        boardX |= (1U << ((input.row * 3) + input.column));
+        boardX |= std::bitset<9>(1U << ((input.row * 3) + input.column));
     } else {
-        boardO |= (1U << ((input.row * 3) + input.column));
-    }     
+        boardO |= std::bitset<9>(1U << ((input.row * 3) + input.column));
+    }
+    checkTurn(x, input.number); // checks if everything makes sense logically     
     
     winCheck();
     playerTurn = !playerTurn; // swaps for next turn, will be compared in checkTurn
@@ -83,8 +82,8 @@ void Board::turn(const Move& input) {
     return;
 }
 
-void Board::checkTurn(const bool player, size_t turnNum, const std::bitset<9>tempBoard) {
-    if ((tempBoard & boardO).any() || (boardX & tempBoard).any()) { // throws error if space already exists on itself or opposite board
+void Board::checkTurn(const bool player, size_t turnNum) {
+    if ((boardX & boardO).any()) { // throws error if space already exists on itself or opposite board
         // std::cout << "tempboard: " << tempBoard << std::endl;
         throw InvalidMove("space already occupied error");
     }
@@ -92,8 +91,6 @@ void Board::checkTurn(const bool player, size_t turnNum, const std::bitset<9>tem
         throw InvalidMove("same player consecutive turn error");
     }
     if (turnNum != turnNumber) {
-        std::cout << "input turn: " << turnNum << std::endl;
-        std::cout << "expected turn: " << turnNumber << std::endl;
         throw InvalidMove("turn is not equal to expected error");
     }
     return;
