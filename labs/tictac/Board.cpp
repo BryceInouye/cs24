@@ -67,9 +67,16 @@ void Board::turn(const Move& input) {
     // } else {                                                                         // to prevent identical moves on itself
     //     tempBoard |= std::bitset<9>(1U << ((input.row * 3) + input.column));
     // }
-    if (playerTurn == true) { // putting input on the board if all checkTurn tests pass
+    std::bitset<9>temp(1U << ((input.row * 3) + input.column));
+    if (playerTurn == true) { // putting input on the board if all checkTurn tests pass 
+        if ((boardX & temp).any()) {
+            throw InvalidMove("space already occupied error");
+        }
         boardX |= std::bitset<9>(1U << ((input.row * 3) + input.column));
     } else {
+        if ((boardO & temp).any()) {
+            throw InvalidMove("space already occupied error");
+        }
         boardO |= std::bitset<9>(1U << ((input.row * 3) + input.column));
     }
     checkTurn(x, input.number); // checks if everything makes sense logically     
