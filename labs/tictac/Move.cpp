@@ -35,11 +35,11 @@ Move::Move(const std::string& input) {
     index++;
     if (index == input.size()) {
         return;
-    } else if (!isblank(input[index])) {
+    } else if (!isspace(input[index])) {
         throw ParseError("invalid character after column (whitespace)");
     }
     checkSpace(input, index);
-    if (isblank(input[index - 1]) || input[index] == '#') {
+    if (isspace(input[index - 1]) || input[index] == '#') {
         return;
     } else {
         throw ParseError("invalid character after optional whitespace (#)");
@@ -49,7 +49,7 @@ void Move::checkSpace(const std::string& input, size_t& index) {
     if ((!isspace(input[index]))) { 
         throw ParseError("no space error");
     }
-    while (index < input.size() && isblank(input[index])) {
+    while (index < input.size() && isspace(input[index])) {
         index++;
     }
     return;

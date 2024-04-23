@@ -59,6 +59,8 @@ int main() {
     // testMoveParser("1 X B2# This is comment 1 ## This is comment 2");
     // testMoveParser("# This is a comment only");
     testMoveParser("1 X B2\t# This is a comment");
+    testMoveParser("1\nO\nC1\n#\ncrazy n");
+    testMoveParser("1\tO\tC1\t#\tcrazy t");
     // std::cout << "1 X B2\t# This is a comment";
     // testMoveParser("1 X B2# This is a comment");
 
