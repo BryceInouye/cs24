@@ -96,7 +96,6 @@ void Tree::recursiveClear(Node* ptr) {
         if (ptr->right != NULL) {
             recursiveClear(ptr->right);
         }
-        std::cout << "deleting: " << ptr->data << std::endl;
         delete ptr;
     }
     return;
