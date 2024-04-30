@@ -7,7 +7,6 @@ Tree::Tree() {
     numNodes = 0;
 }
 Tree::~Tree() {
-    std::cout << "tree is being killed nigga!" << std::endl;
     clear();
 }
 
