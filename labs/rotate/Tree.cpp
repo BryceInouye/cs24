@@ -24,7 +24,6 @@ void Tree::createArray() {
     nodeArray = new std::string[numNodes];
     size_t index = 0;
     recursiveCreateArray(root, nodeArray, index);
-    std::cout << std::endl;
 }
 void Tree::recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &index) {
     if (ptr->left != NULL) {
@@ -38,7 +37,7 @@ void Tree::recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &inde
 void Tree::insert(const std::string& s){
     recursiveInsert(root, s);
     numNodes++; // update the count of nodes
-    // createArray();
+    createArray();
     balance();
     return;
 }
