@@ -21,6 +21,8 @@ void Tree::createArray() {
         nodeArray = NULL;
         return;
     }
+    nodeArray = NULL;
+    delete[] nodeArray;
     nodeArray = new std::string[numNodes];
     size_t index = 0;
     recursiveCreateArray(root, nodeArray, index);
@@ -104,6 +106,8 @@ void Tree::clear() {
     }
     root = NULL;
     numNodes = 0;
+    delete[] nodeArray;
+    nodeArray = NULL;
     return;
 }
 void Tree::recursiveClear(Node* ptr) {
