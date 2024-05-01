@@ -7,6 +7,7 @@ class Tree {
   // Member Variables
   Node*        root; // parent node at the top
   int          numNodes;
+  std::string*         nodeArray;
 
   // Private Helper Functions
   void       recursiveInsert(Node* root, const std::string& s);
@@ -15,6 +16,7 @@ class Tree {
   // size_t recursiveCount(Node* root);
   bool recursiveContains(Node* root, const std::string& s) const;
   void recursiveClear(Node* ptr);
+  void recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &index);
 
 public:
   Tree();
@@ -30,6 +32,7 @@ public:
   void        print() const;
   void        remove(size_t index);
   Node* createLeaf(const std::string& s);
+  void  createArray();
 };
 
 #endif
