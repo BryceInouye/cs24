@@ -63,6 +63,7 @@ void Tree::recursiveInsert(Node* ptr, const std::string& s) {
 
 void Tree::print() const {
     recursivePrint(root);
+    std::cout << std::endl;
     return;
 }
 void Tree::recursivePrint(Node* ptr) const{

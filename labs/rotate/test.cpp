@@ -5,16 +5,16 @@ int main() {
     Tree tree;
 
     // Insert some elements
-    tree.insert("a");
-    tree.insert("z");
-    tree.insert("c");
-    tree.insert("k");
-    tree.insert("w");
-    tree.insert("g");
+    tree.insert("Texas");
+    // tree.insert("z");
+    // tree.insert("c");
+    // tree.insert("k");
+    // tree.insert("w");
+    // tree.insert("g");
     
 
     // Print the tree
-    std::cout << "Tree contents: ";
+    std::cout << "Tree contents: \n";
     tree.print();
     std::cout << std::endl;
     tree.createArray();
