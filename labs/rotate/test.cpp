@@ -5,7 +5,7 @@ int main() {
     Tree tree;
 
     // Insert some elements
-    tree.insert("L");
+    // tree.insert("L");
     // tree.insert("D");
     // tree.insert("N");
     // tree.insert("C");
@@ -15,10 +15,13 @@ int main() {
     // tree.insert("P");
     // tree.insert("S");
 
-
+    tree.insert("A");
+    tree.insert("B");
+    tree.insert("C");
     // Print the tree
     std::cout << "Tree contents: \n";
     tree.print();
+    
     // std::cout << std::endl;
     // tree.createArray();
     // std::cout << "finding A: expected 0, actual: " << tree.find("A");

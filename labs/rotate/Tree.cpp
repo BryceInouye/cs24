@@ -36,10 +36,11 @@ void Tree::recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &inde
     }
 }
 void Tree::insert(const std::string& s){
+    // if (root != NULL) std::cout << "old root: " << root->data << std::endl;
     recursiveInsert(root, s);
     numNodes++; // update the count of nodes
     createArray();
-    balance();
+    // std::cout << "new root: " << root->data << std::endl;
     return;
 }
 void Tree::recursiveInsert(Node* ptr, const std::string& s) {
@@ -48,12 +49,14 @@ void Tree::recursiveInsert(Node* ptr, const std::string& s) {
     } else if (s <= ptr->data) {
         if (ptr->left != NULL) {
             recursiveInsert(ptr->left, s);
+            rotate(ptr, true);  // right rotate after left insertion, vice versa for left rotate
         } else {
             ptr->left = createLeaf(s);
         }
     } else {
         if (ptr->right != NULL) {
             recursiveInsert(ptr->right, s);
+            rotate(ptr, false);
         } else {
             ptr->right = createLeaf(s);
         }
@@ -184,6 +187,38 @@ void Tree::remove(size_t index) {
     return;
 }
 
-void Tree::balance() {
+void Tree::rotate(Node* ptr, const bool side) {
+    if (ptr == NULL) return; 
+    ptr->calcImbalance();
+    size_t initialImbalance = ptr->imbalance;
+    // does the rotation sequence depending on if it was left/right, then calculates if the rotation was worth it
+    // if it does not do anything to the imbalance to help it, the changes are reverted 
+    // notation (ptrLeft ptr ptrRight):           ptr
+    //                                           /   |
+    //                                   ptrLeft     ptrRight
+    Node* tempPtr;
+    if (side == true) { // true for right rotation, false for left rotation
+        tempPtr = ptr->left;
+        ptr->left = tempPtr->right;
+        tempPtr->right = ptr;
+    } else {
+        tempPtr = ptr->right;
+        ptr->right = tempPtr->left;
+        tempPtr->left = ptr;
+    }
+    tempPtr->calcImbalance();
+    size_t newImbalance = tempPtr->imbalance;
+    if (newImbalance >= initialImbalance) {  // new imbalance has to be less than previous for it to be commited
+        if (side == true) {
+            tempPtr->right = ptr->left;
+            ptr->left = tempPtr;
+        } else {
+            tempPtr->left = ptr->right;
+            ptr->right = tempPtr;
+        }
+    } else if (ptr == root && (newImbalance < initialImbalance)) {  // update root if the root was swapped
+        root = tempPtr;
+    }
     return;
+
 }
