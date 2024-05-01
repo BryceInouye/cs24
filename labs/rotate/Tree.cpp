@@ -49,6 +49,7 @@ void Tree::recursiveInsert(Node* ptr, const std::string& s) {
     } else if (s <= ptr->data) {
         if (ptr->left != NULL) {
             recursiveInsert(ptr->left, s);
+            std::cout << "node to call: " << ptr->data << "\n";
             rotate(ptr, true);  // right rotate after left insertion, vice versa for left rotate
         } else {
             ptr->left = createLeaf(s);
@@ -56,6 +57,7 @@ void Tree::recursiveInsert(Node* ptr, const std::string& s) {
     } else {
         if (ptr->right != NULL) {
             recursiveInsert(ptr->right, s);
+            std::cout << "node to call: " << ptr->data << "\n";
             rotate(ptr, false);
         } else {
             ptr->right = createLeaf(s);
@@ -188,6 +190,7 @@ void Tree::remove(size_t index) {
 }
 
 void Tree::rotate(Node* ptr, const bool side) {
+    std::cout << "node being tested: " << ptr->data << "\n";
     if (ptr == NULL) return; 
     ptr->calcImbalance();
     size_t initialImbalance = ptr->imbalance;
@@ -196,12 +199,14 @@ void Tree::rotate(Node* ptr, const bool side) {
     // notation (ptrLeft ptr ptrRight):           ptr
     //                                           /   |
     //                                   ptrLeft     ptrRight
-    Node* tempPtr;
+    Node* tempPtr = NULL;
     if (side == true) { // true for right rotation, false for left rotation
+        if (ptr->left == NULL) return;
         tempPtr = ptr->left;
         ptr->left = tempPtr->right;
         tempPtr->right = ptr;
     } else {
+        if (ptr->right == NULL) return;
         tempPtr = ptr->right;
         ptr->right = tempPtr->left;
         tempPtr->left = ptr;
