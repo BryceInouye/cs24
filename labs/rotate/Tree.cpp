@@ -159,9 +159,10 @@ size_t Tree::find(const std::string& s) const {
     return 0;
 }
 std::string Tree::lookup(size_t index) const {
+    
     if (index >= numNodes) {
         std::cout << "bad index!" << std::endl;
-        throw(std::out_of_range);
+        throw std::out_of_range("out of range!");
         return;
     }
     return nodeArray[index];

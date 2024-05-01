@@ -6,7 +6,7 @@
 class Tree {
   // Member Variables
   Node*        root; // parent node at the top
-  int          numNodes;
+  size_t          numNodes;
   std::string*         nodeArray;
 
   // Private Helper Functions
