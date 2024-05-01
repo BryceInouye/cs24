@@ -17,12 +17,11 @@ Node* Tree::createLeaf(const std::string& s) {
 }
 
 void Tree::createArray() {
-    if (root == NULL) {
+    delete[] nodeArray;
+    if (root == NULL || numNodes == 0) {
         nodeArray = NULL;
         return;
     }
-    nodeArray = NULL;
-    delete[] nodeArray;
     nodeArray = new std::string[numNodes];
     size_t index = 0;
     recursiveCreateArray(root, nodeArray, index);
