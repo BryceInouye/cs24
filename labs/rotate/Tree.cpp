@@ -38,7 +38,6 @@ void Tree::recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &inde
 }
 void Tree::insert(const std::string& s){
     // if (root != NULL) std::cout << "old root: " << root->data << std::endl;
-    std::cout << "original node: " << s << std::endl;
     recursiveInsert(root, s);
     numNodes++; // update the count of nodes
     createArray();
@@ -49,7 +48,6 @@ void Tree::recursiveInsert(Node* ptr, const std::string& s) {
     if (root == NULL) { // if current tree is empty
         root = createLeaf(s);
     } else if (s <= ptr->data) {
-        std::cout << "Node calling: " << ptr->data << std::endl;
         if (ptr->left != NULL) {
             recursiveInsert(ptr->left, s);// right rotate after left insertion, vice versa for left rotate
         } else {
@@ -58,7 +56,6 @@ void Tree::recursiveInsert(Node* ptr, const std::string& s) {
         }
         rotate(ptr, true);
     } else {
-        std::cout << "Node calling: " << ptr->data << std::endl;
         if (ptr->right != NULL) {
             recursiveInsert(ptr->right, s);
         } else {
