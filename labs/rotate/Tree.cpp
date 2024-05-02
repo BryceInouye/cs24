@@ -155,6 +155,9 @@ void Tree::remove(size_t index) {
     // } else {
 
     // }
+    if (index >= numNodes) {
+        throw std::out_of_range("out of range!");
+    }
     std::string removeNode = lookup(index);
     Node* ptr = root;
     Node* parentNode = NULL;
