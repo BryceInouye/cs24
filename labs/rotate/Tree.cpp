@@ -185,30 +185,30 @@ void Tree::remove(size_t index) {
         return;
     }
 
-    if (ptr->right != NULL && ptr->left != NULL) { // Two child nodes
-        // std::string nextGreaterData = lookup(index + 1); // the next data in the array is the next data
-        // Node* nextGreaterNode = ptr;
-        // while (ptr->data != nextGreaterData) {
-        //     if (nextGreaterData < nextGreaterNode->data) {
-        //         if (nextGreaterNode->left != NULL) {
-        //             nextGreaterNode = nextGreaterNode->left;
-        //         } else return;
-        //     } else if (nextGreaterData > nextGreaterNode->data) {
-        //         if (nextGreaterNode->right != NULL) {
-        //             nextGreaterNode = nextGreaterNode->right;
-        //         } else return;
-        //     } else {
-        //         break; // now at the desired node
-        //     }
-        // }
-        // Node* singleChildPtr = NULL;
-        // if (nextGreaterNode->left != NULL) { // only one child maximum
-        //     singleChildPtr = nextGreaterNode->left;
-        // } else if (nextGreaterNode->right != NULL) {
-        //     singleChildPtr = nextGreaterNode->right;
-        // }
-        return; // fix later
-    }
+    // if (ptr->right != NULL && ptr->left != NULL) { // Two child nodes
+    //     // std::string nextGreaterData = lookup(index + 1); // the next data in the array is the next data
+    //     // Node* nextGreaterNode = ptr;
+    //     // while (ptr->data != nextGreaterData) {
+    //     //     if (nextGreaterData < nextGreaterNode->data) {
+    //     //         if (nextGreaterNode->left != NULL) {
+    //     //             nextGreaterNode = nextGreaterNode->left;
+    //     //         } else return;
+    //     //     } else if (nextGreaterData > nextGreaterNode->data) {
+    //     //         if (nextGreaterNode->right != NULL) {
+    //     //             nextGreaterNode = nextGreaterNode->right;
+    //     //         } else return;
+    //     //     } else {
+    //     //         break; // now at the desired node
+    //     //     }
+    //     // }
+    //     // Node* singleChildPtr = NULL;
+    //     // if (nextGreaterNode->left != NULL) { // only one child maximum
+    //     //     singleChildPtr = nextGreaterNode->left;
+    //     // } else if (nextGreaterNode->right != NULL) {
+    //     //     singleChildPtr = nextGreaterNode->right;
+    //     // }
+    //     return; // fix later
+    // }
 
     if (ptr->right != NULL) { // Has right child node: A->B->C becomes A->C
         parentNode->right = ptr->right;
