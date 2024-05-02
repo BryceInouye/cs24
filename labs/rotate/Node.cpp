@@ -13,7 +13,7 @@ Node::Node(const std::string& s) {
     imbalance = 0;
 }
 Node::~Node(){
-    
+    left = right = NULL;
 }
 
 int Node::calcWeight() {

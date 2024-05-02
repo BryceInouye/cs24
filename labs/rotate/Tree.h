@@ -17,6 +17,7 @@ class Tree {
   bool recursiveContains(Node* root, const std::string& s) const;
   void recursiveClear(Node* ptr);
   void recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &index);
+  Node* findParent(Node* ptr);
 
 public:
   Tree();
