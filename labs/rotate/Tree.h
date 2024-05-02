@@ -12,12 +12,14 @@ class Tree {
   // Private Helper Functions
   void       recursiveInsert(Node* root, const std::string& s);
   void recursivePrint(Node* ptr) const; // easier with a node
-  void        rotate(Node* ptr, const bool side); // true for left, false for right
+  void        rotate(Node* parent, Node* ptr, const bool side); // true for left, false for right
   // size_t recursiveCount(Node* root);
   bool recursiveContains(Node* root, const std::string& s) const;
   void recursiveClear(Node* ptr);
   void recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &index);
-  Node* findParent(Node* ptr);
+
+  void rightRotate(Node* ptr);
+  void leftRotate(Node* ptr);
 
 public:
   Tree();

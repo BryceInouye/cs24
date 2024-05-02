@@ -10,7 +10,7 @@ int main() {
     tree.insert("C");
     tree.insert("D");
     tree.insert("E");
-    // tree.insert("F");
+    tree.insert("F");
 
 
     // tree.insert("Q");
