@@ -7,7 +7,7 @@ test: AST.cpp Nodes.cpp Stack.cpp main.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 	
 valgrind: test
-	valgrind --leak-check=full ./test
+	valgrind --leak-check=full ./test prefix
 
 clean:
 	rm -f test

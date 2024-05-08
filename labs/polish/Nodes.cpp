@@ -68,17 +68,17 @@ subtractionNode::~subtractionNode() {
 
 std::string subtractionNode::prefix() const {
   std::string prefixString = "- ";
-  prefixString += left->value();
+  prefixString += left->prefix();
   prefixString += " ";
-  prefixString += right->value();
+  prefixString += right->prefix();
 
   return prefixString;
 }
 std::string subtractionNode::postfix() const {
   std::string postfixString;
-  postfixString += left->value();
+  postfixString += left->postfix();
   postfixString += " ";
-  postfixString += right->value();
+  postfixString += right->postfix();
   postfixString += " -";
 
   return postfixString;
@@ -98,17 +98,17 @@ multiplicationNode::~multiplicationNode() {
 
 std::string multiplicationNode::prefix()  const {
   std::string prefixString = "* ";
-  prefixString += left->value();
+  prefixString += left->prefix();
   prefixString += " ";
-  prefixString += right->value();
+  prefixString += right->prefix();
 
   return prefixString;
 }
 std::string multiplicationNode::postfix() const {
   std::string postfixString;
-  postfixString += left->value();
+  postfixString += left->postfix();
   postfixString += " ";
-  postfixString += right->value();
+  postfixString += right->postfix();
   postfixString += " *";
 
   return postfixString;
@@ -128,17 +128,17 @@ divisionNode::~divisionNode() {
 
 std::string divisionNode::prefix()  const {
   std::string prefixString = "/ ";
-  prefixString += left->value();
+  prefixString += left->prefix();
   prefixString += " ";
-  prefixString += right->value();
+  prefixString += right->prefix();
 
   return prefixString;
 }
 std::string divisionNode::postfix() const {
   std::string postfixString;
-  postfixString += left->value();
+  postfixString += left->postfix();
   postfixString += " ";
-  postfixString += right->value();
+  postfixString += right->postfix();
   postfixString += " /";
 
   return postfixString;
@@ -161,17 +161,17 @@ moduloNode::~moduloNode() {
 
 std::string moduloNode::prefix() const {
   std::string prefixString = "% ";
-  prefixString += left->value();
+  prefixString += left->prefix();
   prefixString += " ";
-  prefixString += right->value();
+  prefixString += right->prefix();
 
   return prefixString;
 }
 std::string moduloNode::postfix() const {
   std::string postfixString;
-  postfixString += left->value();
+  postfixString += left->postfix();
   postfixString += " ";
-  postfixString += right->value();
+  postfixString += right->postfix();
   postfixString += " %";
 
   return postfixString;
@@ -193,13 +193,13 @@ negationNode::~negationNode() {
 
 std::string negationNode::prefix() const {
   std::string prefixString = "~ ";
-  prefixString += right->value();
+  prefixString += right->prefix();
 
   return prefixString;
 }
 std::string negationNode::postfix() const {
   std::string postfixString;
-  postfixString += right->value();
+  postfixString += right->postfix();
   postfixString += " ~";
 
   return postfixString;

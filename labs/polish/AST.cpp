@@ -101,7 +101,7 @@ AST* AST::parse(const std::string& expression) {
     }
     switch (numNodes) {
         case 0: // 0 nodes
-            throw std::runtime_error("No input");
+            throw std::runtime_error("No input.3.1");
             break;
         case 1: // 1 node
             break;
