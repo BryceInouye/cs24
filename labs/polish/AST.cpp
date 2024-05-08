@@ -15,7 +15,7 @@ AST* AST::parse(const std::string& expression) {
             // 3. declare new operation node
             // 4. update stack and stack count
             if (numNodes < 2) {
-                throw std::runtime_error("Not enough operands");
+                throw std::runtime_error("Not enough operands.");
             }
             AST* right = stack.pop();
             AST* left = stack.pop();
@@ -25,7 +25,7 @@ AST* AST::parse(const std::string& expression) {
             numNodes--;
         } else if (token == "-") {
             if (numNodes < 2) {
-                throw std::runtime_error("Not enough operands");
+                throw std::runtime_error("Not enough operands.");
             }
             AST* right = stack.pop();
             AST* left = stack.pop();
@@ -45,7 +45,7 @@ AST* AST::parse(const std::string& expression) {
             numNodes--;
         } else if (token == "/") {
             if (numNodes < 2) {
-                throw std::runtime_error("Not enough operands");
+                throw std::runtime_error("Not enough operands.");
             }
             AST* right = stack.pop();
             AST* left = stack.pop();
@@ -55,7 +55,7 @@ AST* AST::parse(const std::string& expression) {
             numNodes--;
         } else if (token == "%"){
             if (numNodes < 2) {
-                throw std::runtime_error("Not enough operands");
+                throw std::runtime_error("Not enough operands.");
             }
             AST* right = stack.pop();
             AST* left = stack.pop();
@@ -65,7 +65,7 @@ AST* AST::parse(const std::string& expression) {
             numNodes--;
         } else if (token == "~"){
             if (numNodes < 1) {
-                throw std::runtime_error("Not enough operands");
+                throw std::runtime_error("Not enough operands.");
             }
             AST* right = stack.pop();
             negationNode* negateNode = new negationNode(right);

@@ -144,6 +144,9 @@ std::string divisionNode::postfix() const {
   return postfixString;
 }
 double      divisionNode::value()   const {
+  if (right->value() == 0) {
+    throw std::runtime_error("Division by zero.");
+  }
   double quotient;
   quotient = left->value() / right->value();
 
@@ -174,6 +177,9 @@ std::string moduloNode::postfix() const {
   return postfixString;
 }
 double moduloNode::value() const {
+  if (right->value() == 0) {
+    throw std::runtime_error("Division by zero.");
+  }
   double remainder;
   remainder = fmod(left->value(), right->value());
 
