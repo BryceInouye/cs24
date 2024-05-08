@@ -3,15 +3,12 @@
 #include "Stack.h"
 #include <sstream>
 
-
-#include <iostream>
 AST* AST::parse(const std::string& expression) {
     std::string token;
     std::istringstream stream(expression);
     Stack stack; // declare stack
     size_t numNodes = 0;
     while(stream >> token) {
-        std::cout << "token: " << token << std::endl; // check to see which token is being parsed
         if(token == "+") {
             // 1. check if can pop twice
             // 2. pop twice
