@@ -49,12 +49,12 @@ std::set<Person*> Person::ancestors(PMod pmod) {
     std::set<Person*> myAncestors;
     if (this->personMother != nullptr && (pmod == PMod::ANY || pmod == PMod::MATERNAL)) { // mom side
         myAncestors.insert(this->personMother); // if mom, then add mom and call function again. do same for dad
-        std::set<Person*> maternalAncestors = this->personMother->ancestors(PMod::MATERNAL);
+        std::set<Person*> maternalAncestors = this->personMother->ancestors(PMod::ANY);
         myAncestors.insert(maternalAncestors.begin(), maternalAncestors.end());
     }
     if (this->personFather != nullptr && (pmod == PMod::ANY || pmod == PMod::PATERNAL)) { // dad side
         myAncestors.insert(this->personFather);
-        std::set<Person*> paternalAncestors = this->personFather->ancestors(PMod::PATERNAL);
+        std::set<Person*> paternalAncestors = this->personFather->ancestors(PMod::ANY);
         myAncestors.insert(paternalAncestors.begin(), paternalAncestors.end());
     }
     return myAncestors;
