@@ -264,7 +264,7 @@ std::set<Person*> Person::siblings(PMod pmod, SMod smod) {
                 if (smod == SMod::ANY) {
                     siblings.insert(child); // next check if any, full, or half
                 } else if (smod == SMod::FULL) { // only add if parents match
-                    if (child->father() == this->father() && child->mother() == this->mother()) {
+                    if (child->father() == this->father() && child->mother() == this->mother() && this->father() != nullptr) {
                         siblings.insert(child);
                     }
                 } else if (smod == SMod::HALF) { // only add if mom matches and dad doesnt
@@ -281,7 +281,7 @@ std::set<Person*> Person::siblings(PMod pmod, SMod smod) {
                 if (smod == SMod::ANY) {
                     siblings.insert(child); // next check if any, full, or half
                 } else if (smod == SMod::FULL) { // only add if parents match
-                    if (child->father() == this->father() && child->mother() == this->mother()) {
+                    if (child->father() == this->father() && child->mother() == this->mother() && this->mother() != nullptr{
                         siblings.insert(child);
                     }
                 } else if (smod == SMod::HALF) { // only add if dad matches and mom doesnt
