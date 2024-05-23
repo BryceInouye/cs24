@@ -1,7 +1,6 @@
 #include "Index.h"
 
 // Index Member Functions
-Map::Map() {}
 Map::~Map() {
     for (int i = 0; i < bucketCount; ++i) {
         chainNode* current = chain[i];
