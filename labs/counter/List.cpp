@@ -50,7 +50,7 @@ void List::remove(Node* KEY){ // removal of any node
     delete KEY;
     numNodes--;
 }
-List::Node* List::find(const std::string& KEY) {
+List::Node* List::find(const std::string& KEY) const {
     Node* temp = head;
     while (temp != nullptr) {
         if (temp->key == KEY) {

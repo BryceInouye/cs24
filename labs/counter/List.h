@@ -13,7 +13,7 @@ class List {
         Node* prev;
         std::string key;
         int value;
-        Node(std::string x, int y) : key(x), value(y) {} // node constructor
+        Node(std::string x, int y) : next(nullptr), prev(nullptr), key(x), value(y) {} // node constructor
     };
     private:
         Node* head;
@@ -24,7 +24,7 @@ class List {
         ~List();
         void insert(const std::string& KEY, int VALUE);
         void remove(Node* KEY); // string of the node to be deleted
-        Node* find(const std::string& KEY);
+        Node* find(const std::string& KEY) const;
         Node* getHead() const;
         Node* getTail() const;
         size_t getNumNodes() const;
