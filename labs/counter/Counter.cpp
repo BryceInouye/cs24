@@ -3,11 +3,8 @@
 #include "List.h"
 
 // Counter Member Functions
-Counter::Counter() {
-    list = new List; // doubly linked list
-}
+Counter::Counter() {}
 Counter::~Counter() {
-    delete list;
 }
 
 size_t Counter::count() const {

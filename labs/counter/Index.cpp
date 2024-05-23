@@ -7,16 +7,17 @@ Map::Map() {
     }
 }
 Map::~Map() {
-    for (size_t i = 0; i < bucketCount; ++i) { // same method as list.cpp destructor
+    for (size_t i = 0; i < bucketCount; ++i) {// same method as list.cpp destructor
         chainNode* current = chain[i]; // get the current bucket then delete the list associated with it
-        chainNode* next = nullptr;
         while (current != nullptr) {
-            next = current->next;
+            chainNode* next = current->next;
             delete current;
             current = next;
-        } 
+        }
+        chain[i] = nullptr; // Set the deleted pointers to nullptr
     }
-    delete[] chain; // memory allocation issue 
+    delete[] chain;
+    chain = nullptr; // Set the deleted pointer to nullptr
 }
 
 int Map::calcHash(const std::string key) const {
