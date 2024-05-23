@@ -28,7 +28,6 @@ class List {
         Node* getHead() const;
         Node* getTail() const;
         size_t getNumNodes() const;
-        int sumNodes() const;
 };
 
 #endif

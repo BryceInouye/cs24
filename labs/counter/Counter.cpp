@@ -2,7 +2,7 @@
 
 // Counter Member Functions
 Counter::Counter() {
-    list = new List(); // doubly linked list
+    list = new List; // doubly linked list
 }
 Counter::~Counter() {
     delete list;
@@ -12,7 +12,11 @@ size_t Counter::count() const {
     return list->getNumNodes();
 }
 int    Counter::total() const {
-    return list->sumNodes();
+    int sum = 0;
+    for(auto itr = this->begin(); itr != this->end(); ++itr) { 
+        sum += itr.value();
+    }
+    return sum;
 }
 
 void Counter::inc(const std::string& key, int by) {
