@@ -9,33 +9,32 @@ Map::Map() {
 Map::~Map() {
     for (size_t i = 0; i < bucketCount; ++i) {// same method as list.cpp destructor
         chainNode* current = chain[i]; // get the current bucket then delete the list associated with it
+        chainNode* NEXT = nullptr;
         while (current != nullptr) {
-            chainNode* next = current->next;
+            NEXT = current->next;
             delete current;
-            current = next;
+            current = NEXT;
         }
-        chain[i] = nullptr; // Set the deleted pointers to nullptr
     }
-    delete[] chain;
-    chain = nullptr; // Set the deleted pointer to nullptr
+    delete[] chain; // delete the empty table once all the lists are empty
 }
 
-int Map::calcHash(const std::string key) const {
+int Map::calcHash(const std::string KEY) const {
                                          // djb2 hash algorithm
     unsigned long hash = 5381;           // uses two prime numbers for a better distribution
-    for (size_t i = 0; i < key.length(); i++) {         
-        hash = (hash << 4) + hash;       // it multiplies by a prime number that is 1 from a power of 2 for quick computation    
-        hash += key[i];                  // the ASCII value is added to hash to also help with distribution
+    for (size_t i = 0; i < KEY.length(); i++) {         
+        hash = (hash << 4) + hash;       // it multiplies by a prime number that is 1 from a power of 2 for quick computation. << 4 = *2^4    
+        hash += KEY[i];                  // the ASCII value is added to hash to also help with distribution
     }
     return hash;
 }
 
-List::Node* Map::get(const std::string& key) const {
+Node* Map::find(const std::string KEY) const {
     // compute the index of chain using the calcHash function. then go through the linked list at the calculated bucket
-    int index = calcHash(key) % bucketCount; // calculated hash mod bucketCount guarantees a legitimate bucket
+    int index = calcHash(KEY) % bucketCount; // calculated hash mod bucketCount guarantees a legitimate bucket
     chainNode* current = chain[index];
     while (current != nullptr) {
-        if (current->key == key) {
+        if (current->key == KEY) {
             return current->node; // return chainNode if matches key
         }
         current = current->next;
@@ -43,25 +42,26 @@ List::Node* Map::get(const std::string& key) const {
     return nullptr; // key not found
 }
 
-void Map::add(const std::string& key, List::Node* value) { // add node to single linked list, runs in constant time since it iterates through the entire list. can be improved by implementing tail pointer
-    int index = calcHash(key) % bucketCount; // same method as get()
-    chainNode* current = chain[index]; 
-    if (current == nullptr) { // if list is empty
-        chain[index] = new chainNode(key, value);
+void Map::insert(const std::string KEY, Node* value) { // add node to single linked list, runs in constant time since it iterates through the entire list. can be improved by implementing tail pointer
+    int index = calcHash(KEY) % bucketCount; // same method as find()
+    chainNode* current = new chainNode(KEY, value);
+    if (chain[index] == nullptr) { // if list is empty
+        chain[index] = current;
     } else {
-        while (current->next != nullptr) { // iterate until empty spot
-            current = current->next;
+        chainNode* end = chain[index];
+        while (end->next != nullptr) { // iterate until empty spot
+            end = end->next;
         }
-        current->next = new chainNode(key, value); // add to the end of the list
+        end->next = current; // add to the end of the list
     }
 }
 
-void Map::remove(const std::string& key){ // remove node from single linked list
-    int index = calcHash(key) % bucketCount;
+void Map::remove(Node* KEY){ // remove node from single linked list
+    int index = calcHash(KEY->key) % bucketCount;
     chainNode* current = chain[index];
     chainNode* preCurrent = nullptr;
     while (current != nullptr) {
-        if (current->key == key) {
+        if (current->key == KEY->key) {
             if (preCurrent == nullptr) {
                 chain[index] = current->next;
             } else {

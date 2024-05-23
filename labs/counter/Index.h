@@ -3,27 +3,27 @@
 #include <string>
 #include "List.h"
 
+struct chainNode { // separate struct from class
+    std::string key;
+    Node* node;
+    chainNode* next;
+    chainNode(std::string x, Node* y) : key(x), node(y), next(nullptr) {}
+};
+
 class Map {
-    public:
-        struct chainNode {
-            std::string key;
-            List::Node* node;
-            chainNode* next;
-            chainNode(std::string x, List::Node* y) : key(x), node(y) {}
-        };
     
     public:
         Map();
         ~Map();
 
         int calcHash(const std::string str) const; // used to determine bucket
-        List::Node* get(const std::string& key) const; // return desired node of chain
-        void add(const std::string& key, List::Node* value); // add node to single linked list 
-        void remove(const std::string& key); // remove node from linked list
+        Node* find(const std::string KEY) const; // return desired node of chain
+        void insert(const std::string KEY, Node* value); // add node to single linked list 
+        void remove(Node* KEY); // remove node from linked list
     
     private:
     // member variables
-        static const int bucketCount = 101; // prime number yields less collisions. memory should not be an issue so we create a large table
+        const int bucketCount = 1009; // prime number yields less collisions. memory should not be an issue so we create a large table
         chainNode** chain = new chainNode*[bucketCount];
 
 };

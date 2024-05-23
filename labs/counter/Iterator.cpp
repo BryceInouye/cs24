@@ -5,7 +5,7 @@
 Counter::Iterator::Iterator() {
     currentNode = nullptr;
 }
-Counter::Iterator::Iterator(List::Node* node) {
+Counter::Iterator::Iterator(Node* node) {
     currentNode = node;
 }
 

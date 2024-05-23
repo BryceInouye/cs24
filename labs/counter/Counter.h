@@ -13,11 +13,11 @@ class Counter {
 public:
   class Iterator {
     // Member Variables
-    List::Node* currentNode;
+    Node* currentNode = nullptr;
 
   public:
     Iterator();
-    Iterator(List::Node* node);
+    Iterator(Node* node);
     const std::string& key() const;
     int value() const;
 
@@ -28,15 +28,15 @@ public:
 
 private:
   // Member Variables
-  List* list; // doubly linked list
+  List list; // doubly linked list
   Map map;
 
 private:
   // Helper Functions
 
 public:
-  Counter();
-  ~Counter();
+  Counter() {}
+  ~Counter() {}
 
   size_t count() const;
   int    total() const;
