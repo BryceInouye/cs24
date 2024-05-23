@@ -16,6 +16,7 @@ class Map {
         Map();
         ~Map();
 
+        int calcHash(const std::string& str); // used to determine bucket
         Node* get(const std::string& key); // return desired node of chain
         void add(const std::string& key, Node* value); // add node to single linked list 
         void remove(const std::string& key); // remove node from linked list
@@ -25,9 +26,6 @@ class Map {
         static const int bucketCount = 32749; // prime number yields less collisions. memory should not be an issue so we create a large table
         chainNode** chain;
 
-    private:
-    // helper functions
-        int calcHash(const std::string& str); // used to determine bucket
 };
 
 #endif
