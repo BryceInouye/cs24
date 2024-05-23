@@ -22,7 +22,7 @@ void Counter::inc(const std::string& key, int by) {
     else 
         list->insert(key, by); // The inc(), dec(), and set() functions will add keys to the counter if they are not already present.
 }
-void Counter::dec(const std::string& key, int by = 1) {
+void Counter::dec(const std::string& key, int by) {
     List::Node* keyNode = list->find(key);
     if (keyNode != nullptr) 
         keyNode->value = keyNode->value - by;
