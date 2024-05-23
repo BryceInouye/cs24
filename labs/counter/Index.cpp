@@ -1,22 +1,17 @@
 #include "Index.h"
 
 // Index Member Functions
-Map::Map() {
-    for (int i = 0; i < bucketCount; ++i) {
-        chain[i] = nullptr;
-    }
-}
+Map::Map() {}
 Map::~Map() {
-    for (int i = 0; i < bucketCount; ++i) {// same method as list.cpp destructor
-        chainNode* current = chain[i]; // get the current bucket then delete the list associated with it
-        chainNode* NEXT = nullptr;
+    for (int i = 0; i < bucketCount; ++i) {
+        chainNode* current = chain[i];
         while (current != nullptr) {
-            NEXT = current->next;
-            delete current;
-            current = NEXT;
+            chainNode* toDelete = current;
+            current = current->next;
+            delete toDelete;
         }
     }
-    delete[] chain; // delete the empty table once all the lists are empty
+    delete[] chain;
 }
 
 int Map::calcHash(const std::string KEY) const {
@@ -33,6 +28,9 @@ Node* Map::find(const std::string KEY) const {
     // compute the index of chain using the calcHash function. then go through the linked list at the calculated bucket
     int index = calcHash(KEY) % bucketCount; // calculated hash mod bucketCount guarantees a legitimate bucket
     chainNode* current = chain[index];
+    if (current == nullptr) { // added null pointer check
+        return nullptr;
+    }
     while (current != nullptr) {
         if (current->key == KEY) {
             return current->node; // return chainNode if matches key
@@ -56,19 +54,20 @@ void Map::insert(const std::string KEY, Node* value) { // add node to single lin
     }
 }
 
-void Map::remove(Node* KEY){ // remove node from single linked list
+void Map::remove(Node* KEY) {
+    // Assuming KEY is the key of the node to be removed
     int index = calcHash(KEY->key) % bucketCount;
     chainNode* current = chain[index];
     chainNode* preCurrent = nullptr;
     while (current != nullptr) {
-        if (current->key == KEY->key) {
+        if (current->node == KEY) {
             if (preCurrent == nullptr) {
                 chain[index] = current->next;
             } else {
                 preCurrent->next = current->next;
             }
             delete current;
-            break;
+            return;
         }
         preCurrent = current;
         current = current->next;
