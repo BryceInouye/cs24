@@ -24,6 +24,7 @@ List::Node* List::insert(const std::string& KEY, int VALUE) { // insertion at th
         tail = node;
     }
     numNodes++;
+    return node;
 }
 void List::remove(std::string KEY){ // removal of any node
     // update the pointers adjacent to the node that is to be deleted
