@@ -22,7 +22,7 @@ class Map {
     
     private:
     // member variables
-        static const int bucketCount = 101; // prime number yields less collisions. memory should not be an issue so we create a large table
+        static const int bucketCount = 32749; // prime number yields less collisions. memory should not be an issue so we create a large table
         chainNode** chain;
 
     private:
