@@ -34,13 +34,13 @@ Node* Map::get(const std::string& key) {
 void Map::add(const std::string& key, Node* value){ // add node to single linked list, runs in constant time since it iterates through the entire list. can be improved by implementing tail pointer
     int index = calcHash(key) % bucketCount; // same method as get()
     chainNode* current = chain[index]; 
-    if (current = nullptr) { // if list is empty
+    if (current == nullptr) { // if list is empty
         chain[index] = new chainNode(key, value);
     } else {
-        while (current != nullptr) { // iterate until empty spot
+        while (current->next != nullptr) { // iterate until empty spot
             current = current->next;
         }
-        chain[index] = new chainNode(key, value);
+        current->next = new chainNode(key, value); // add to the end of the list
     }
 }
 
