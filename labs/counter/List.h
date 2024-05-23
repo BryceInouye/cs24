@@ -1,3 +1,4 @@
+
 #ifndef LIST_H
 #define LIST_H
 #include <string>
@@ -8,27 +9,27 @@
 
 class List {
     public:
-    struct Node {
+        struct Node {
+        Node* next;
+        Node* prev;
         std::string key;
         int value;
-        Node* prev;
-        Node* next;
+        Node(std::string x, int y) : next(nullptr), prev(nullptr), key(x), value(y) {} // node constructor
     };
-
     private:
-    Node* head;
-    Node* tail;
-
+        Node* head;
+        Node* tail;
+        size_t numNodes;
     public:
-    List();
-    ~List();
-
-    Node* insert(const std::string& KEY, int VALUE);
-    void remove(Node* KEY);
-    Node* find(const std::string& key) const;
-    Node* getHead() const;
-    Node* getTail() const;
-        
+        List();
+        ~List();
+        void insert(const std::string& KEY, int VALUE);
+        void remove(Node* KEY); // string of the node to be deleted
+        Node* find(const std::string& KEY) const;
+        Node* getHead() const;
+        Node* getTail() const;
+        size_t getNumNodes() const;
+        int sumNodes() const;
 };
 
 #endif
