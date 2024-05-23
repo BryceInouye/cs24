@@ -2,9 +2,6 @@
 
 // Counter::Iterator Member Functions
 
-Counter::Iterator::Iterator() {
-    currentNode = nullptr;
-}
 Counter::Iterator::Iterator(List::Node* node) {
     currentNode = node;
 }
@@ -17,13 +14,11 @@ int Counter::Iterator::value() const {
 }
 
 void Counter::Iterator::operator ++ () {
-    if (currentNode->next != nullptr) {
-        currentNode = currentNode->next;
-    }
+    currentNode = currentNode->next;
 }
 bool Counter::Iterator::operator == (const Iterator& other) const {
-    return (this->currentNode == other.currentNode);
+    return (currentNode == other.currentNode);
 }
 bool Counter::Iterator::operator != (const Iterator& other) const {
-    return (this->currentNode != other.currentNode);
+    return (currentNode != other.currentNode);
 }

@@ -4,67 +4,53 @@
 List::List() {
     head = nullptr;
     tail = nullptr;
-    numNodes = 0;
 }
 List::~List() {
     Node* temp = head;
-    while(temp != nullptr) {
-        Node* temp1 = temp;
-        temp = temp->next;
-        delete temp1;
+    while (temp != nullptr) {
+        Node* temp1 = temp->next;
+        delete temp;
+        temp = temp1;
     }
 }
-void List::insert(const std::string& KEY, int VALUE) { // insertion at the tail
-    Node* node = new Node(KEY, VALUE);
-    if (head == nullptr) { // if list is empty
-        head = node;
-        tail = node;
-    } else {
-        tail->next = node;
-        node->prev = tail;
-        tail = node;
-    }
-    numNodes++;
+List::Node* List::insert(const std::string& KEY, int VALUE) {
+    Node* temp = new Node;
+    temp->key = KEY;
+    temp->value = VALUE;
+    temp->prev = nullptr;
+    temp->next = nullptr;
+    return temp;
 }
-void List::remove(Node* KEY){ // removal of any node
-    // update the pointers adjacent to the node that is to be deleted
-    // end of list: delete and update tail to be tail->prev
-    // front of list: delete and update head to be head->next
-    // middle of list: make deleted node->prev point to deleted node->next, do same for other direction
-    
-    if (KEY == nullptr) return; // if empty list
+void List::remove(Node* KEY) {
+    if (KEY == nullptr) {
+        return;
+    }
 
-    if (KEY == head && KEY == tail) { // list is size 1
+    if (KEY == head && KEY == tail) { // list size = 1
         head = nullptr;
         tail = nullptr;
-    } else if (KEY == head) { // head removal
+    } else if (KEY == head) {
         head = KEY->next;
-        KEY->next->prev = nullptr;
-    } else if (KEY == tail) { // tail removal
+        head->prev = nullptr;
+    } else if (KEY == tail) {
         tail = KEY->prev;
         tail->next = nullptr;
-    } else { // middle removal
-        KEY->next->prev = KEY->prev;
+    } else {
         KEY->prev->next = KEY->next;
+        KEY->next->prev = KEY->prev;
     }
     delete KEY;
-    numNodes--;
 }
-List::Node* List::find(const std::string& KEY) const{
+List::Node* List::find(const std::string& key) const {
     Node* temp = head;
-    while (temp != nullptr) {
-        if (temp->key == KEY) {
+    while(temp != nullptr) {
+        if (temp->key == key) {
             return temp;
         }
         temp = temp->next;
     }
     return nullptr;
 }
-
-size_t List::getNumNodes() const {
-    return numNodes;
-}
-
 List::Node* List::getHead() const {
     return head;
 }

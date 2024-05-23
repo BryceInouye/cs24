@@ -1,59 +1,47 @@
 #include "Counter.h"
 
 // Counter Member Functions
-Counter::Counter() {
-    list = new List; // doubly linked list
-}
-Counter::~Counter() {
-    delete list;
-}
+Counter::Counter() {}
+Counter::~Counter() {}
 
 size_t Counter::count() const {
-    return list->getNumNodes();
+    size_t count = 0;
+    List::Node* temp = index.list.getHead();
+    while (temp != nullptr) {
+        count++;
+        temp = temp->next;
+    }
+    return count;
 }
 int    Counter::total() const {
     int sum = 0;
-    for(auto itr = this->begin(); itr != this->end(); ++itr) { 
-        sum += itr.value();
+    List::Node* temp = index.list.getHead();
+    while (temp != nullptr) {
+        sum += temp->value;
+        temp = temp->next;
     }
     return sum;
 }
 
 void Counter::inc(const std::string& key, int by) {
-    List::Node* keyNode = list->find(key);
-    if (keyNode != nullptr) 
-        keyNode->value = keyNode->value + by;
-    else 
-        list->insert(key, by); // The inc(), dec(), and set() functions will add keys to the counter if they are not already present.
+    index.increment(key, index.get(key) + by); // The inc(), dec(), and set() functions will add keys to the counter if they are not already present.
 }
 void Counter::dec(const std::string& key, int by) {
-    List::Node* keyNode = list->find(key);
-    if (keyNode != nullptr) 
-        keyNode->value = keyNode->value - by;
-    else
-        list->insert(key, -by);
+    index.increment(key, index.get(key) - by); // decrement is just a negative increment
 }
 void Counter::del(const std::string& key) { // The del() function is the only function that removes keys;
-    List::Node* keyNode = list->find(key);  // setting a value to zero does not remove the corresponding key
-    list->remove(keyNode);
+    index.remove(key);                      // setting a value to zero does not remove the corresponding key
 }
 int  Counter::get(const std::string& key) const {
-    List::Node* keyNode = list->find(key); // looks up a count by key. If the key isn't present, it returns zero.
-    return (keyNode == nullptr) ? 0 : keyNode->value;
+    return index.get(key); // looks up a count by key. If the key isn't present, it returns zero.
 }
 void Counter::set(const std::string& key, int count) {
-    List::Node* keyNode = list->find(key); //  sets a count by key.
-    if (keyNode != nullptr) 
-        keyNode->value = count;
-    else 
-        list->insert(key, count);
+    index.increment(key, count); //  sets a count by key.
 }
 
 Counter::Iterator Counter::begin() const {
-    Counter::Iterator iterator(list->getHead()); // loaded constructor
-    return iterator;
+    return Iterator(index.list.getHead()); // loaded constructor
 }
 Counter::Iterator Counter::end() const {
-    Counter::Iterator iterator; // default constructor is nullptr
-    return iterator;
+    return Iterator(nullptr); // default constructor is nullptr
 }
