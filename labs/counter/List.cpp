@@ -13,7 +13,7 @@ List::~List() {
         delete temp;
     }
 }
-void List::insert(const std::string& KEY, int VALUE) { // insertion at the tail
+List::Node* List::insert(const std::string& KEY, int VALUE) { // insertion at the tail
     Node* node = new Node(KEY, VALUE);
     if (head == nullptr) { // if list is empty
         head = node;

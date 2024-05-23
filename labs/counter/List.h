@@ -1,7 +1,7 @@
+
 #ifndef LIST_H
 #define LIST_H
 #include <string>
-#include "Index.h"
 // create node struct
 // create doubly linked list functions
 // The list should support insertion at the tail, finding the node that contains a given string, and removal of any node.
@@ -20,11 +20,10 @@ class List {
         Node* head;
         Node* tail;
         size_t numNodes;
-        Map map;
     public:
         List();
         ~List();
-        void insert(const std::string& KEY, int VALUE);
+        Node* insert(const std::string& KEY, int VALUE);
         void remove(std::string KEY); // string of the node to be deleted
         Node* find(const std::string& KEY) const;
         Node* getHead() const;
