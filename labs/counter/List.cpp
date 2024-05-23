@@ -52,7 +52,7 @@ void List::remove(Node* KEY){ // removal of any node
 }
 List::Node* List::find(const std::string& KEY) {
     if (head == nullptr) return nullptr;
-    Node* temp = head;
+    List::Node* temp = head;
     while (temp != nullptr) {
         if (temp->key == KEY) return temp;
         temp = temp->next;
@@ -64,7 +64,7 @@ size_t List::getNumNodes() const {
     return numNodes;
 }
 
-int sumNodes() const {
+int List::sumNodes() const {
     Node* temp = head;
     int sum = 0;
     while (temp != nullptr) {
