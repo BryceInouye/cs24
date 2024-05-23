@@ -17,7 +17,7 @@ int Counter::Iterator::value() const {
 }
 
 void Counter::Iterator::operator ++ () {
-    if (currentNode->next != nullptr) {
+    if (currentNode) { // fixed infinite loop here
         currentNode = currentNode->next;
     }
 }

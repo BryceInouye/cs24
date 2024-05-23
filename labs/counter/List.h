@@ -1,4 +1,3 @@
-
 #ifndef LIST_H
 #define LIST_H
 #include <string>
@@ -24,12 +23,11 @@ class List {
         List();
         ~List();
         void insert(const std::string& KEY, int VALUE);
-        void remove(Node* KEY); // string of the node to be deleted
+        void remove(std::string KEY); // string of the node to be deleted
         Node* find(const std::string& KEY) const;
         Node* getHead() const;
         Node* getTail() const;
         size_t getNumNodes() const;
-        int sumNodes() const;
 };
 
 #endif
