@@ -2,7 +2,7 @@
 
 // Index Member Functions
 Map::Map() {
-    for (size_t i = 0; i < bucketCount; ++i) {
+    for (int i = 0; i < bucketCount; ++i) {
         chain[i] = nullptr;
     }
 }
