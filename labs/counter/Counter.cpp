@@ -38,7 +38,7 @@ void Counter::del(const std::string& key) { // The del() function is the only fu
 }
 int  Counter::get(const std::string& key) const {
     auto keyNode = list->find(key); // looks up a count by key. If the key isn't present, it returns zero.
-    return (keyNode) ? 0 : keyNode->value;
+    return (keyNode) ? keyNode->value : 0; // swapped
 }
 void Counter::set(const std::string& key, int count) {
     auto keyNode = list->find(key); //  sets a count by key.
