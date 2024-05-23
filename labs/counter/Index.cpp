@@ -7,7 +7,7 @@ Map::Map() {
     }
 }
 Map::~Map() {
-    for (size_t i = 0; i < bucketCount; ++i) {// same method as list.cpp destructor
+    for (int i = 0; i < bucketCount; ++i) {// same method as list.cpp destructor
         chainNode* current = chain[i]; // get the current bucket then delete the list associated with it
         chainNode* NEXT = nullptr;
         while (current != nullptr) {
