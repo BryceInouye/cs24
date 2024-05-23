@@ -16,6 +16,7 @@ Map::~Map() {
             current = next;
         } 
     }
+    delete[] chain; // memory allocation issue 
 }
 
 Node* Map::get(const std::string& key) {
