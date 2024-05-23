@@ -7,11 +7,11 @@ List::List() {
     numNodes = 0;
 }
 List::~List() {
-    while (head != nullptr) {
-        Node* temp = head;
-        head = temp->next;
-        delete temp;
-        numNodes = 0;
+    Node* temp = head;
+    while(temp != nullptr) {
+        Node* temp1 = temp;
+        temp = temp->next;
+        delete temp1;
     }
 }
 void List::insert(const std::string& KEY, int VALUE) { // insertion at the tail
@@ -51,10 +51,11 @@ void List::remove(Node* KEY){ // removal of any node
     numNodes--;
 }
 List::Node* List::find(const std::string& KEY) {
-    if (head == nullptr) return nullptr;
-    List::Node* temp = head;
+    Node* temp = head;
     while (temp != nullptr) {
-        if (temp->key == KEY) return temp;
+        if (temp->key == KEY) {
+            return temp;
+        }
         temp = temp->next;
     }
     return nullptr;
