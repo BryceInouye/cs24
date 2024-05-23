@@ -19,7 +19,7 @@ Map::~Map() {
     delete[] chain; // memory allocation issue 
 }
 
-Node* Map::get(const std::string& key) {
+List::Node* Map::get(const std::string& key) const {
     // compute the index of chain using the calcHash function. then go through the linked list at the calculated bucket
     int index = calcHash(key) % bucketCount; // calculated hash mod bucketCount guarantees a legitimate bucket
     chainNode* current = chain[index];
@@ -32,7 +32,7 @@ Node* Map::get(const std::string& key) {
     return nullptr; // key not found
 }
 
-void Map::add(const std::string& key, Node* value){ // add node to single linked list, runs in constant time since it iterates through the entire list. can be improved by implementing tail pointer
+void Map::add(const std::string& key, List::Node* value){ // add node to single linked list, runs in constant time since it iterates through the entire list. can be improved by implementing tail pointer
     int index = calcHash(key) % bucketCount; // same method as get()
     chainNode* current = chain[index]; 
     if (current == nullptr) { // if list is empty
@@ -64,7 +64,7 @@ void Map::remove(const std::string& key){ // remove node from single linked list
     }
 }
 
-int Map::calcHash(const std::string& key) {
+int Map::calcHash(const std::string& key) const {
                                          // djb2 hash algorithm
     unsigned long hash = 5381;           // uses two prime numbers for a better distribution
     for (size_t i = 0; i < key.length(); i++) {         

@@ -1,24 +1,25 @@
 #ifndef INDEX_H
 #define INDEX_H
 #include <string>
+#include "List.h"
 
-struct Node;
+struct List::Node;
 class Map {
     public:
         struct chainNode {
             std::string key;
-            Node* node;
+            List::Node* node;
             chainNode* next;
-            chainNode(std::string x, Node* y) : key(x), node(y) {}
+            chainNode(std::string x, List::Node* y) : key(x), node(y) {}
         };
     
     public:
         Map();
         ~Map();
 
-        int calcHash(const std::string& str); // used to determine bucket
-        Node* get(const std::string& key); // return desired node of chain
-        void add(const std::string& key, Node* value); // add node to single linked list 
+        int calcHash(const std::string& str) const; // used to determine bucket
+        List::Node* get(const std::string& key) const; // return desired node of chain
+        void add(const std::string& key, List::Node* value); // add node to single linked list 
         void remove(const std::string& key); // remove node from linked list
     
     private:
