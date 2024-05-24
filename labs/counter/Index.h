@@ -13,13 +13,11 @@ struct chainNode { // separate struct from class
 class Map {
     private:
 // member variables
-    const int bucketCount = 49157; // prime number yields less collisions. memory should not be an issue so we create a large table
-    chainNode** chain;
+    const int bucketCount = 11; // prime number yields less collisions. memory should not be an issue so we create a large table
+    chainNode** bucket = new chainNode*[bucketCount] {nullptr};
     
     public:
-        Map() {
-            chain = new chainNode*[bucketCount] {nullptr};
-        }
+        Map() {}
         ~Map();
 
         int calcHash(const std::string str) const; // used to determine bucket

@@ -12,34 +12,34 @@ size_t Counter::count() const {
     return i;
 }
 int    Counter::total() const {
-    int sum = 0;
+    int total = 0;
     for (auto itr = this->begin(); itr != this->end(); ++itr) {
-        sum += itr.value();
+        total += itr.value();
     }
-    return sum;
+    return total;
 }
 
 void Counter::inc(const std::string& key, int by) {
     auto keyNode = map.find(key); // change auto to see if i was declaring wrong type to keyNode
-    if (keyNode != nullptr) {
+    if (keyNode != nullptr){
         keyNode->value += by;
-    } else { 
-        Node* NODE = list.insert(key, by); // The inc(), dec(), and set() functions will add keys to the counter if they are not already present.
-        map.insert(key, NODE);
+    } else {
+        Node* keyNode = list.insert(key, by); // The inc(), dec(), and set() functions will add keys to the counter if they are not already present.
+        map.insert(key, keyNode);
     }
 }
 void Counter::dec(const std::string& key, int by) {
     auto keyNode = map.find(key);
-    if (keyNode != nullptr) {
+    if (keyNode != nullptr){
         keyNode->value -= by;
     } else {
-        Node* NODE = list.insert(key, -by);
-        map.insert(key, NODE);
+        Node* keyNode = list.insert(key, -by);
+        map.insert(key, keyNode);
     }
 }
 void Counter::del(const std::string& key) { // The del() function is the only function that removes keys;
-    auto keyNode = map.find(key);            // setting a value to zero does not remove the corresponding key
-    if (keyNode != nullptr) {
+    auto keyNode = map.find(key); // setting a value to zero does not remove the corresponding key
+    if(keyNode != nullptr){
         map.remove(keyNode);
         list.remove(keyNode);
     }
@@ -49,12 +49,13 @@ int  Counter::get(const std::string& key) const {
     return (keyNode) ? keyNode->value : 0; // swapped
 }
 void Counter::set(const std::string& key, int count) {
-    auto keyNode = map.find(key); //  sets a count by key.
-    if (keyNode != nullptr) {
+    auto keyNode = map.find(key); //  sets a count by key
+    if(keyNode != nullptr){
         keyNode->value = count;
-    } else {
-        Node* NODE = list.insert(key, count);
-        map.insert(key, NODE);
+    }
+    else{
+        Node* keyNode = list.insert(key, count);
+        map.insert(key, keyNode);
     }
 }
 
@@ -63,6 +64,6 @@ Counter::Iterator Counter::begin() const {
     return iterator;
 }
 Counter::Iterator Counter::end() const {
-    // Counter::Iterator iterator; // default constructor is nullptr
+    Counter::Iterator iterator; // default constructor is nullptr
     return nullptr;
 }
