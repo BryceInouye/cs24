@@ -44,7 +44,7 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
 
         float totalScore = 0.0;
         for (size_t i = 0; i < length; ++i) {
-            // Get the QWERTY position for the current character
+            // current character QWERTY position
             char c = word[i];
             if (c < 'a' || c > 'z') {
                 continue;
