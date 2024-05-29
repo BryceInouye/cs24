@@ -59,10 +59,10 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
         float averageScore = totalScore / length;
 
         // changed push conditions:
-        // heap is not full
-        // heap is empty
+        // heap is not full, OR
+        // heap has fewer elements than its maximum capacity, OR
         // word has a higher score than the lowest-scoring word in the heap
-        if (heap.count() < maxcount || heap.empty() || averageScore > heap.top().score) {
+        if (heap.count() < maxcount || averageScore > heap.top().score) {
             heap.push(word, averageScore);
         }
     }
