@@ -44,7 +44,7 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
 
         float totalScore = 0.0;
         for (size_t i = 0; i < length; ++i) {
-            // current character QWERTY position
+            // Get the QWERTY position for the current character
             char c = word[i];
             if (c < 'a' || c > 'z') {
                 continue;
@@ -59,9 +59,10 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
         float averageScore = totalScore / length;
 
         // changed push conditions:
-        // - heap is not full, OR
-        // - word has a higher score than the lowest-scoring word in the heap
-        if (heap.count() < maxcount || averageScore > heap.top().score) {
+        // heap is not full
+        // heap is empty
+        // word has a higher score than the lowest-scoring word in the heap
+        if (heap.count() < maxcount || heap.empty() || averageScore > heap.top().score) {
             heap.push(word, averageScore);
         }
     }
