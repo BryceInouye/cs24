@@ -112,7 +112,7 @@ Heap::Entry Heap::pushpop(const std::string& value, float score) {
     // duplicate check
     for (size_t i = 0; i < mCount; ++i) {
         if (mData[i].value == value) {
-            return;
+            return {value, score};
         }
     }
     
