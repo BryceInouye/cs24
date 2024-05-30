@@ -39,6 +39,13 @@ const Heap::Entry& Heap::lookup(size_t index) const {
 
 /* push adds a new entry to the heap. If there is no space for the new item, it throws a std::overflow_error. */
 void Heap::push(const std::string& value, float score) {
+    // duplicate check
+    for (size_t i = 0; i < mCount; ++i) {
+        if (mData[i].value == value) {
+            throw std::invalid_argument("Duplicate value");
+        }
+    }
+    
     if (mCount >= mCapacity) {
         throw std::overflow_error("push() error");
     }
@@ -102,6 +109,13 @@ it replaces it with the pushed entry, and then percolates that down.
 If there are no items in the heap, it throws a std::underflow_error.*/
 
 Heap::Entry Heap::pushpop(const std::string& value, float score) {
+    // duplicate check
+    for (size_t i = 0; i < mCount; ++i) {
+        if (mData[i].value == value) {
+            throw std::invalid_argument("Duplicate value");
+        }
+    }
+    
     if (mCount == 0) {
         throw std::underflow_error("pushpop() error");
     }
@@ -147,3 +161,4 @@ const Heap::Entry& Heap::top() const {
     }
     return mData[0];
 }
+
