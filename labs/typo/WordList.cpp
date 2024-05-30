@@ -29,38 +29,47 @@ WordList::WordList(std::istream& stream) {
 these are the points where the user touched the screen. It then finds all the words of the correct length, 
 scores them according to the scoring algorithm below, and uses a Heap with capacity maxcount to collect the most likely words. 
 Words with scores lower than cutoff are not included in the output.*/
-Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float cutoff) const {
-    if (points.empty()) {
-        throw std::invalid_argument("Points vector is empty");
-    }
-    
-    size_t length = points.size();
+
+Heap WordList::correct(const std::vector<Point> &points, size_t maxcount, float cutoff) const
+{
     Heap heap(maxcount);
-
-    for (const std::string& word : mWords) {
-        if (word.length() != length) {
-            continue;
+    size_t pointLength = points.size();
+    std::vector<std::string> temp;
+    auto itr = mWords.begin();
+    while (itr != mWords.end())
+    {
+        if ((*itr).length() == pointLength)
+        {
+            temp.push_back(*itr);
         }
-
-        float totalScore = 0.0;
-        for (size_t i = 0; i < word.length(); ++i) {
-            Point keyLocation = QWERTY[word[i] - 'a'];
-            float dx = points[i].x - keyLocation.x;
-            float dy = points[i].y - keyLocation.y;
-            float distanceSquared = dx * dx + dy * dy;
-            float score = 1.0f / (10.0f * distanceSquared + 1.0f);
-            totalScore += score;
+        ++itr;
+    }
+    for (auto itr = temp.begin(); itr != temp.end(); itr++)
+    {
+        float total = 0;
+        size_t i = 0;
+        for (auto it = points.begin(); it != points.end(); it++)
+        {
+            int idx = ((*itr)[i] - 97);
+            float euclidDistance = sqrt(pow((QWERTY[idx].x - it->x), 2) + pow((QWERTY[idx].y - it->y), 2));
+            float score = 1.0 / (10.0 * pow(euclidDistance, 2) + 1.0);
+            total = total + score;
+            i++;
         }
-        float averageScore = totalScore / word.length();
+        float s = total / float((*itr).length()); // s
 
-        if (averageScore >= cutoff) {
-            if (heap.count() < maxcount) {
-                heap.push(word, averageScore);
-            } else if (averageScore > heap.top().score) {
-                heap.pushpop(word, averageScore);
+
+        if (s >= cutoff)
+        {
+            if (heap.count() < heap.capacity())
+            {
+                heap.push(*itr, s);
+            }
+            else if (heap.top().score < s)
+            {
+                heap.pushpop(*itr, s);
             }
         }
     }
-
     return heap;
 }
