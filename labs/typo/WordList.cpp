@@ -36,18 +36,19 @@ Heap WordList::correct(const std::vector<Point> &points, size_t maxcount, float 
     size_t pointLength = points.size();
     std::vector<std::string> temp;
     auto itr = mWords.begin();
-    while (itr != mWords.end())
-    {
+
+    while (itr != mWords.end()) {
         if ((*itr).length() == pointLength)
         {
             temp.push_back(*itr);
         }
         ++itr;
     }
-    for (auto itr = temp.begin(); itr != temp.end(); itr++)
-    {
+
+    for (auto itr = temp.begin(); itr != temp.end(); itr++) {
         float total = 0;
         size_t i = 0;
+
         for (auto it = points.begin(); it != points.end(); it++)
         {
             int idx = ((*itr)[i] - 97);
@@ -56,6 +57,7 @@ Heap WordList::correct(const std::vector<Point> &points, size_t maxcount, float 
             total = total + score;
             i++;
         }
+
         float s = total / float((*itr).length()); // s
 
 
@@ -70,6 +72,8 @@ Heap WordList::correct(const std::vector<Point> &points, size_t maxcount, float 
                 heap.pushpop(*itr, s);
             }
         }
+        
     }
+
     return heap;
 }
