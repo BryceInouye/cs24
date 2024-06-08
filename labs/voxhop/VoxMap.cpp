@@ -57,7 +57,7 @@ VoxMap::VoxMap(std::istream& stream) {
     for (int j = 0; j < depth; j++) {
       for (int k = 0; k < width; k++) {
         Point parent = Point(k, j, i); // Parent->(Child)
-        std::cout << "parent being tested: " << parent << "\n";
+        // std::cout << "parent being tested: " << parent << "\n";
         if (can_stand(parent)) {
           Point north_neighbor = parent;
           std::unordered_set<Point> valid_neighbors;
@@ -110,12 +110,12 @@ VoxMap::VoxMap(std::istream& stream) {
             west_neighbor.z++;
             }
           }
-            std::cout << "parent: " << parent << std::endl;
-            std::cout << "children: ";
-            for (Point n : valid_neighbors) {
-                std::cout << n;
-            }
-            std::cout << "\n";
+            // std::cout << "parent: " << parent << std::endl;
+            // std::cout << "children: ";
+            // for (Point n : valid_neighbors) {
+            //     std::cout << n;
+            // }
+            // std::cout << "\n";
           vgraph[parent] = valid_neighbors;
         }
       }
@@ -141,7 +141,7 @@ bool VoxMap::can_stand(Point& point) {
   }
 
   if (world[point.x][point.y][point.z]) { // The voxel must be empty.
-  std::cout << "     FAIL AT:" << point << std::endl;
+  // std::cout << "     FAIL AT:" << point << std::endl;
     return false;
   }
 
