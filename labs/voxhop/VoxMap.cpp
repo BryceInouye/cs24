@@ -25,37 +25,51 @@ std::string hexCharToBinary(char hexChar) {
 }
 
 VoxMap::VoxMap(std::istream& stream) {
-    stream >> width >> depth >> height; // assume the map dimensions are valid
+    stream >> width >> depth >> height; // Assume the map dimensions are valid
     world.resize(width, std::vector<std::vector<bool>>(depth, std::vector<bool>(height, false)));
 
     std::string line;
-    std::getline(stream, line, '\n'); // ignore the blank line
+    std::getline(stream, line); // Ignore the blank line after reading map dimensions
 
     for (int i = 0; i < height; i++) {
         std::getline(stream, line);
         for (int j = 0; j < depth; ++j) {
             std::getline(stream, line);
-            // remove carriage (\r) return if it exists
+            // Remove carriage return if it exists
             if (!line.empty() && line[line.length()-1] == '\r') {
                 line.erase(line.length() - 1);
             }
-            // std::cout << "ABC:" << std::endl;
-            // std::cout << line << "D";
+            // std::cout << "LINE ROW:" << j << std::endl;
+            // std::cout << line << "\n";
             // std::cout << "line length: " << line.length() << "\n\n";
             for (size_t k = 0; k < line.length(); k++) {
                 // std::cout << "hex at line[" << k <<"]: " << line[k] << '\n';
                 std::string hex_string = hexCharToBinary(line[k]);
                 for (int m = 0; m < 4; m++) {
-                    world[4*k + m][(depth - 1) - j][i] = hex_string[m] - '0';
+                    world[4*k + m][j][i] = hex_string[m] - '0';
                 }
             }
+        }
     }
-  } 
+    
+// loop to print the grid for reference
+//     std::cout << "GRID HERE:";
+//   for (int i = 0; i < height; i++) {
+//     std::cout << "height: " << i << "\n";
+//     for (int j = 0; j < depth; j++) {
+//       std::cout << "depth: " << j << ":";
+//       for (int k = 0; k < width; k++) {
+//         std::cout << world[k][j][i];
+//       }
+//       std::cout << "\n";
+//     }
+//   }
+       
   
   for (int i = 1; i < height; i++) { // (i,j,k) = (z,y,x)
     for (int j = 0; j < depth; j++) {
       for (int k = 0; k < width; k++) {
-        Point parent = Point(k, j, i); // Parent->(Child->Direction)
+        Point parent = Point(k, j, i); // Parent->(Child)
         // std::cout << "parent being tested: " << parent << "\n";
         if (can_stand(parent)) {
           Point north_neighbor = parent;
@@ -140,6 +154,7 @@ bool VoxMap::can_stand(Point& point) {
   }
 
   if (world[point.x][point.y][point.z]) { // The voxel must be empty.
+//   std::cout << "     FAIL AT:" << point << std::endl;
     return false;
   }
 
@@ -150,6 +165,9 @@ bool VoxMap::can_stand(Point& point) {
   if (world[point.x][point.y][point.z-1]) {
     return true; // The voxel must have a full voxel directly below it.
   }
+//   Point temp = point;
+//   temp.z--;
+//   std::cout << "     FAIL AT:" << point << ". BELOW: "<< temp << std::endl;
   return false;
 }
 bool VoxMap::neighbor_valid(Point& point, Point& neighbor) {
@@ -235,9 +253,10 @@ Route VoxMap::route(Point src, Point dst) {
                                          // and every child has only 1 parent
   std::unordered_set<Point> visited; // set of visited nodes to prevent infinite loops
   std::queue<Point> q; // set of nodes to visit, no heuristics yet
-
+  std::unordered_set<Point> waiting; // set of nodes added to the queue
   q.push(src);
   while (!q.empty()) {
+    // std::cout << "Outer loop, queue size: " << q.size() << std::endl;
     Point current = q.front(); // 1.
     visited.insert(current); // 2.
     q.pop();
@@ -254,8 +273,11 @@ Route VoxMap::route(Point src, Point dst) {
     }
 
     for (Point neighbor : vgraph[current]) { // 4.
-      if (visited.find(neighbor) == visited.end() && can_stand(neighbor)) {
+    //   std::cout << "  Inner loop, neighbor: " << neighbor << std::endl;
+      if (visited.find(neighbor) == visited.end() && can_stand(neighbor) 
+          && waiting.find(neighbor) == waiting.end()) {
         q.push(neighbor);
+        waiting.insert(neighbor);
         path[neighbor] = current; // child -> parent : path[current] = current parent
       }
     }
