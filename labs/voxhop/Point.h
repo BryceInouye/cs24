@@ -10,6 +10,10 @@ struct Point {
 
   Point() {}
   Point(int x, int y, int z): x(x), y(y), z(z) {}
+  bool operator<(const Point& other) const;
+  bool operator>(const Point& other) const;
+  bool operator==(const Point& other) const;
+  bool operator!=(const Point& other) const; 
 };
 
 std::istream& operator >> (std::istream& stream, Point& point);

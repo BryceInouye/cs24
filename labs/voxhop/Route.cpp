@@ -30,3 +30,4 @@ std::ostream& operator << (std::ostream& stream, const Route& route) {
 
   return stream;
 }
+
