@@ -39,45 +39,32 @@ VoxMap::VoxMap(std::istream& stream) {
             if (!line.empty() && line[line.length()-1] == '\r') {
                 line.erase(line.length() - 1);
             }
-            // std::cout << "LINE ROW:" << j << std::endl;
-            // std::cout << line << "\n";
+            // std::cout << "ABC:" << std::endl;
+            // std::cout << line << "D";
             // std::cout << "line length: " << line.length() << "\n\n";
             for (size_t k = 0; k < line.length(); k++) {
                 // std::cout << "hex at line[" << k <<"]: " << line[k] << '\n';
                 std::string hex_string = hexCharToBinary(line[k]);
                 for (int m = 0; m < 4; m++) {
-                    world[4*k + m][j][i] = hex_string[m] - '0';
+                    world[4*k + m][(depth - 1) - j][i] = hex_string[m] - '0';
                 }
             }
         }
     }
-    
-// loop to print the grid for reference
-//     std::cout << "GRID HERE:";
-//   for (int i = 0; i < height; i++) {
-//     std::cout << "height: " << i << "\n";
-//     for (int j = 0; j < depth; j++) {
-//       std::cout << "depth: " << j << ":";
-//       for (int k = 0; k < width; k++) {
-//         std::cout << world[k][j][i];
-//       }
-//       std::cout << "\n";
-//     }
-//   }
        
   
   for (int i = 1; i < height; i++) { // (i,j,k) = (z,y,x)
     for (int j = 0; j < depth; j++) {
       for (int k = 0; k < width; k++) {
         Point parent = Point(k, j, i); // Parent->(Child)
-        // std::cout << "parent being tested: " << parent << "\n";
+        std::cout << "parent being tested: " << parent << "\n";
         if (can_stand(parent)) {
           Point north_neighbor = parent;
           std::unordered_set<Point> valid_neighbors;
           north_neighbor.y--;
           north_neighbor.z = 1; // set to 1 since neighbor can be on the groun
           if (north_neighbor.y >= 0) {
-            while (parent.z >= north_neighbor.z) {
+            while (parent.z + 1 >= north_neighbor.z) {
               if (neighbor_valid(parent, north_neighbor)) {
                 valid_neighbors.insert(north_neighbor);
                 break;
@@ -89,7 +76,7 @@ VoxMap::VoxMap(std::istream& stream) {
           south_neighbor.y++;
           south_neighbor.z = 1;
           if (south_neighbor.y < depth) {
-            while (parent.z >= south_neighbor.z) { // fix loop later to avoid doing same computation twice
+            while (parent.z + 1>= south_neighbor.z) { // fix loop later to avoid doing same computation twice
                 if (neighbor_valid(parent, south_neighbor)) {
                   valid_neighbors.insert(south_neighbor);
                   break;
@@ -102,7 +89,7 @@ VoxMap::VoxMap(std::istream& stream) {
           east_neighbor.x++;
           east_neighbor.z = 1;
           if (east_neighbor.x < width) {
-            while (parent.z >= east_neighbor.z) {
+            while (parent.z + 1 >= east_neighbor.z) {
             if (neighbor_valid(parent, east_neighbor)) {
               valid_neighbors.insert(east_neighbor);
               break;
@@ -115,7 +102,7 @@ VoxMap::VoxMap(std::istream& stream) {
           west_neighbor.x--;
           west_neighbor.z = 1;
           if (west_neighbor.x >= 0) {
-            while (parent.z >= west_neighbor.z) {
+            while (parent.z + 1>= west_neighbor.z) {
             if (neighbor_valid(parent, west_neighbor)) {
               valid_neighbors.insert(west_neighbor);
               break;
@@ -123,12 +110,12 @@ VoxMap::VoxMap(std::istream& stream) {
             west_neighbor.z++;
             }
           }
-            // std::cout << "parent: " << parent << std::endl;
-            // std::cout << "children: ";
-            // for (Point n : valid_neighbors) {
-            //     std::cout << n;
-            // }
-            // std::cout << "\n";
+            std::cout << "parent: " << parent << std::endl;
+            std::cout << "children: ";
+            for (Point n : valid_neighbors) {
+                std::cout << n;
+            }
+            std::cout << "\n";
           vgraph[parent] = valid_neighbors;
         }
       }
@@ -154,7 +141,7 @@ bool VoxMap::can_stand(Point& point) {
   }
 
   if (world[point.x][point.y][point.z]) { // The voxel must be empty.
-//   std::cout << "     FAIL AT:" << point << std::endl;
+  std::cout << "     FAIL AT:" << point << std::endl;
     return false;
   }
 
@@ -184,25 +171,29 @@ bool VoxMap::neighbor_valid(Point& point, Point& neighbor) {
     return true;
   }
   
+  // point.z < neighbor.z (Jump Up)
+  if (neighbor.z - point.z == 1) {
+    Point temp = point;
+    temp.z++;
+    if (world[temp.x][temp.y][temp.z]) {
+      return false;
+    }
+    return true;
+  }
+
   // point.z > neighbor.z (Fall Down)
   Point temp = neighbor;
   temp.z++;
   if (point.z > neighbor.z) {
+    if (world[neighbor.x][neighbor.y][neighbor.z]) {
+      // If the voxel we're moving into is filled, we can't fall down
+      return false;
+    }
     while (point.z >= temp.z) {
       if (world[temp.x][temp.y][temp.z]) {
         return false;
       }
       temp.z++;
-    }
-    return true;
-  }
-
-  // point.z < neighbor.z (Jump Up)
-  if (neighbor.z - point.z == 1) {
-    temp = point;
-    temp.z++;
-    if (world[temp.x][temp.y][temp.z]) {
-      return false;
     }
     return true;
   }
@@ -253,10 +244,9 @@ Route VoxMap::route(Point src, Point dst) {
                                          // and every child has only 1 parent
   std::unordered_set<Point> visited; // set of visited nodes to prevent infinite loops
   std::queue<Point> q; // set of nodes to visit, no heuristics yet
-  std::unordered_set<Point> waiting; // set of nodes added to the queue
+
   q.push(src);
   while (!q.empty()) {
-    // std::cout << "Outer loop, queue size: " << q.size() << std::endl;
     Point current = q.front(); // 1.
     visited.insert(current); // 2.
     q.pop();
@@ -273,11 +263,8 @@ Route VoxMap::route(Point src, Point dst) {
     }
 
     for (Point neighbor : vgraph[current]) { // 4.
-    //   std::cout << "  Inner loop, neighbor: " << neighbor << std::endl;
-      if (visited.find(neighbor) == visited.end() && can_stand(neighbor) 
-          && waiting.find(neighbor) == waiting.end()) {
+      if (visited.find(neighbor) == visited.end() && can_stand(neighbor)) {
         q.push(neighbor);
-        waiting.insert(neighbor);
         path[neighbor] = current; // child -> parent : path[current] = current parent
       }
     }
