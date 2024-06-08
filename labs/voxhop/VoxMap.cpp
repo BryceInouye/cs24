@@ -20,25 +20,35 @@ std::string hexCharToBinary(char hexChar) {
         case 'd': return "1101";
         case 'e': return "1110";
         case 'f': return "1111";
-        default: throw std::invalid_argument("Invalid hexadecimal character");
+        default: 
+        std::cout <<"EFG:" << hexChar << "H" << std::endl;
+        throw std::invalid_argument("Invalid hexadecimal character");
     }
 }
 
 VoxMap::VoxMap(std::istream& stream) {
-    stream >> width >> depth >> height; // Assume the map dimensions are valid
+    stream >> width >> depth >> height; // assume the map dimensions are valid
     world.resize(width, std::vector<std::vector<bool>>(depth, std::vector<bool>(height, false)));
 
     std::string line;
-    std::getline(stream, line); // Ignore the blank line
+    std::getline(stream, line, '\n'); // ignore the blank line
 
-    for (int i = 0; i < height; i++) { // (i,j,k) = (z,y,x)
+    for (int i = 0; i < height; i++) {
         std::getline(stream, line);
         for (int j = 0; j < depth; ++j) {
             std::getline(stream, line);
+            // remove carriage (\r) return if it exists
+            if (!line.empty() && line[line.length()-1] == '\r') {
+                line.erase(line.length() - 1);
+            }
+            std::cout << "ABC:" << std::endl;
+            std::cout << line << "D";
+            std::cout << "line length: " << line.length() << "\n\n";
             for (size_t k = 0; k < line.length(); k++) {
+                std::cout << "hex at line[" << k <<"]: " << line[k] << '\n';
                 std::string hex_string = hexCharToBinary(line[k]);
                 for (int m = 0; m < 4; m++) {
-                    world[4*k + m][(depth - 1) - j][i] = hex_string[m] - '0'; // Adjust indexing for width, depth, height
+                    world[4*k + m][(depth - 1) - j][i] = hex_string[m] - '0';
                 }
             }
     }
