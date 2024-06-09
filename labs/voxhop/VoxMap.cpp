@@ -71,7 +71,7 @@ VoxMap::VoxMap(std::istream& stream) {
     for (int j = 0; j < depth; j++) {
       for (int k = 0; k < width; k++) {
         Point parent = Point(k, j, i); // Parent->(Child)
-        std::cout << "parent being tested: " << parent << " VALUE:" << world[parent.x][parent.y][parent.z] << "\n";
+        // std::cout << "parent being tested: " << parent << " VALUE:" << world[parent.x][parent.y][parent.z] << "\n";
         if (can_stand(parent)) {
           Point north_neighbor = parent;
           std::unordered_set<Point> valid_neighbors;
@@ -124,12 +124,12 @@ VoxMap::VoxMap(std::istream& stream) {
             west_neighbor.z++;
             }
           }
-            std::cout << "parent: " << parent << std::endl;
-            std::cout << "children: ";
-            for (Point n : valid_neighbors) {
-                std::cout << n;
-            }
-            std::cout << "\n";
+            // std::cout << "parent: " << parent << std::endl;
+            // std::cout << "children: ";
+            // for (Point n : valid_neighbors) {
+            //     std::cout << n;
+            // }
+            // std::cout << "\n";
           vgraph[parent] = valid_neighbors;
         }
       }
@@ -270,7 +270,7 @@ Route VoxMap::route(Point src, Point dst) {
         current = path[current]; // if A->B, then path[B] = A
         // std::cout << "new current: " << current << "\n";
       }
-      std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
+      // std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
       return route; 
     }
 
