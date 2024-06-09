@@ -164,10 +164,13 @@ void Tree::remove(size_t index) {
 
     if(curr == root){
         Node* temp = curr->right;
-        while(temp->left != nullptr){
-            temp = temp->left;
+        // check if temp is not null before entering the while loop
+        if(temp != nullptr){
+            while(temp->left != nullptr){
+                temp = temp->left;
+            }
+            handleRootRemoval(curr, temp);
         }
-        handleRootRemoval(curr, temp);
     }
     else{
         if(curr->left == nullptr && curr->right == nullptr){
