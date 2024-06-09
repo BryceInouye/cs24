@@ -160,10 +160,12 @@ void Tree::remove(size_t index) {
         curr = value < curr->data ? curr->left : curr->right;
     }
 
-    Node* temp1 = curr->parent;
-    while(temp1 != nullptr){
-        temp1->weight--;
-        temp1 = temp1->parent;
+    if (curr != nullptr) {
+        Node* temp1 = curr->parent;
+        while(temp1 != nullptr){
+            temp1->weight--;
+            temp1 = temp1->parent;
+        }
     }
 
     if(curr == root){
