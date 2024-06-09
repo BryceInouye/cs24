@@ -53,6 +53,7 @@ VoxMap::VoxMap(std::istream& stream) {
     }
     
 // loop to print the grid for reference
+
 //     std::cout << "GRID HERE:";
 //   for (int i = 0; i < height; i++) {
 //     std::cout << "height: " << i << "\n";
@@ -70,14 +71,14 @@ VoxMap::VoxMap(std::istream& stream) {
     for (int j = 0; j < depth; j++) {
       for (int k = 0; k < width; k++) {
         Point parent = Point(k, j, i); // Parent->(Child)
-        // std::cout << "parent being tested: " << parent << "\n";
+        std::cout << "parent being tested: " << parent << " VALUE:" << world[parent.x][parent.y][parent.z] << "\n";
         if (can_stand(parent)) {
           Point north_neighbor = parent;
           std::unordered_set<Point> valid_neighbors;
           north_neighbor.y--;
           north_neighbor.z = 1; // set to 1 since neighbor can be on the groun
           if (north_neighbor.y >= 0) {
-            while (parent.z >= north_neighbor.z) {
+            while ((parent.z + 1) >= north_neighbor.z) {
               if (neighbor_valid(parent, north_neighbor)) {
                 valid_neighbors.insert(north_neighbor);
                 break;
@@ -89,7 +90,7 @@ VoxMap::VoxMap(std::istream& stream) {
           south_neighbor.y++;
           south_neighbor.z = 1;
           if (south_neighbor.y < depth) {
-            while (parent.z >= south_neighbor.z) { // fix loop later to avoid doing same computation twice
+            while ((parent.z + 1) >= south_neighbor.z) { // fix loop later to avoid doing same computation twice
                 if (neighbor_valid(parent, south_neighbor)) {
                   valid_neighbors.insert(south_neighbor);
                   break;
@@ -102,7 +103,7 @@ VoxMap::VoxMap(std::istream& stream) {
           east_neighbor.x++;
           east_neighbor.z = 1;
           if (east_neighbor.x < width) {
-            while (parent.z >= east_neighbor.z) {
+            while ((parent.z + 1) >= east_neighbor.z) {
             if (neighbor_valid(parent, east_neighbor)) {
               valid_neighbors.insert(east_neighbor);
               break;
@@ -115,7 +116,7 @@ VoxMap::VoxMap(std::istream& stream) {
           west_neighbor.x--;
           west_neighbor.z = 1;
           if (west_neighbor.x >= 0) {
-            while (parent.z >= west_neighbor.z) {
+            while ((parent.z + 1) >= west_neighbor.z) {
             if (neighbor_valid(parent, west_neighbor)) {
               valid_neighbors.insert(west_neighbor);
               break;
@@ -123,12 +124,12 @@ VoxMap::VoxMap(std::istream& stream) {
             west_neighbor.z++;
             }
           }
-            // std::cout << "parent: " << parent << std::endl;
-            // std::cout << "children: ";
-            // for (Point n : valid_neighbors) {
-            //     std::cout << n;
-            // }
-            // std::cout << "\n";
+            std::cout << "parent: " << parent << std::endl;
+            std::cout << "children: ";
+            for (Point n : valid_neighbors) {
+                std::cout << n;
+            }
+            std::cout << "\n";
           vgraph[parent] = valid_neighbors;
         }
       }
@@ -159,15 +160,16 @@ bool VoxMap::can_stand(Point& point) {
   }
 
   if (point.z < 1) {
+// std::cout << "     FAIL AT:" << point << std::endl;
     return false;
   }
 
   if (world[point.x][point.y][point.z-1]) {
     return true; // The voxel must have a full voxel directly below it.
   }
-//   Point temp = point;
-//   temp.z--;
-//   std::cout << "     FAIL AT:" << point << ". BELOW: "<< temp << std::endl;
+  Point temp = point;
+  temp.z--;
+  //std::cout << "     FAIL AT:" << point << ", VALUE:" << world[point.x][point.y][point.z] << ". BELOW:"<< temp << "VALUE:" << world[temp.x][temp.y][temp.z] << std::endl;
   return false;
 }
 bool VoxMap::neighbor_valid(Point& point, Point& neighbor) {
@@ -268,7 +270,8 @@ Route VoxMap::route(Point src, Point dst) {
         current = path[current]; // if A->B, then path[B] = A
         // std::cout << "new current: " << current << "\n";
       }
-      return route;
+      std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
+      return route; 
     }
 
     for (Point neighbor : vgraph[current]) { // 4.
@@ -283,3 +286,4 @@ Route VoxMap::route(Point src, Point dst) {
   }
   throw NoRoute(src, dst); // 5.
 }
+
