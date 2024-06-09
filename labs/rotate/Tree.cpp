@@ -1,4 +1,3 @@
-
 #include "Tree.h"
 #include <iostream>
 
@@ -144,190 +143,233 @@ std::string Tree::lookup(size_t index) const {
     return nodeArray[index];
 }
 void Tree::remove(size_t index) {
-    // use lookup to find where it is
-    // if node->adjacent == NULL, then delete node. 
-    // operations will be easier if keeping track of 
-    // if node 1 child, previous->left = current->left so 1->5->7 becomes 1->7; check using current left->left left->right right->right right->left
-    // if (removeNode->left == NULL && removeNode->right == NULL) {
-    //      delete removeNode;
-    // } else if (removeNode->left != NULL && removeNode->right != NULL) {
-
-    // } else {
-
-    // }
-    if (index >= numNodes) {
+    if(index >= numNodes){
         throw std::out_of_range("out of range!");
     }
-    std::string removeNode = lookup(index);
-    Node* ptr = root;
-    Node* parentNode = NULL;
-    
-    while (ptr != NULL) {
-        if (removeNode < ptr->data) {
-            if (ptr->left != NULL) {
-                parentNode = ptr;
-                ptr = ptr->left;
-            } else return;
-        } else if (removeNode > ptr->data) {
-            if (ptr->right != NULL) {
-                parentNode = ptr;
-                ptr = ptr->right;
-            } else return;
-        } else {
-            break; // Found the node, break out of the loop
+
+    std::string value = lookup(index);
+    Node* curr = root;
+    while (curr != nullptr) {
+        if (curr->data == value) {
+            break;
+        }
+        curr = value < curr->data ? curr->left : curr->right;
+    }
+
+    Node* temp1 = curr->parent;
+    while(temp1 != nullptr){
+        temp1->weight--;
+        temp1 = temp1->parent;
+    }
+
+    if(curr == root){
+        Node* temp = curr->right;
+        while(temp->left != nullptr){
+            temp = temp->left;
+        }
+        handleRootRemoval(curr, temp);
+    }
+    else{
+        if(curr->left == nullptr && curr->right == nullptr){
+            handleNoChildren(curr);
+        }
+        else if(curr->left == nullptr && curr->right != nullptr){
+            handleOneChild(curr, curr->right);
+        }
+        else if(curr->left != nullptr && curr->right == nullptr){
+            handleOneChild(curr, curr->left);
+        }
+        else {
+            handleTwoChildren(curr);
         }
     }
-    if (ptr->left == NULL && ptr->right == NULL) { // Leaf node
-        delete ptr;
-        delete parentNode;
-        numNodes--; // update the count of nodes
-        createArray();
-        return;
+    numNodes--;
+}
+
+void Tree::handleRootRemoval(Node* curr, Node* temp){
+    if(temp->parent != curr){
+        temp->parent->left = temp->right;
+        if(temp->right != nullptr){
+            temp->right->parent = temp->parent;
+        }
+        temp->right = curr->right;
+        curr->right->parent = temp;
+    }
+    temp->left = curr->left;
+    curr->left->parent = temp;
+    temp->parent = nullptr;
+    root = temp;
+    delete curr;
+}
+
+void Tree::handleNoChildren(Node* curr){
+    if(curr->data > curr->parent->data){
+        curr->parent->right = nullptr;
+    }
+    else{
+        curr->parent->left = nullptr;
+    }
+    delete curr;
+}
+
+void Tree::handleOneChild(Node* curr, Node* child){
+    if(curr->data > curr->parent->data){
+        curr->parent->right = child;
+    }
+    else{
+        curr->parent->left = child;
+    }
+    child->parent = curr->parent;
+    Node* temp = curr->parent;
+    while(temp != nullptr){
+        if(curr->data > temp->data && temp->left != nullptr){
+            rotate(temp, temp->left);
+        }
+        else if(curr->data <= temp->data && temp->right != nullptr){
+            rotate(temp, temp->right);
+        }
+        temp = temp->parent;
+    }
+    delete curr;
+}
+
+void Tree::handleTwoChildren(Node* curr){
+    Node* temp = curr->right;
+    while(temp->left != nullptr){
+        temp = temp->left;
+    }
+    if(temp->right != nullptr){
+        temp->right->parent = temp->parent;
+    }
+    if(temp->parent != curr){
+        temp->parent->left = temp->right;
+        temp->right = curr->right;
+    }
+    temp->parent = curr->parent;
+    if(curr->parent == nullptr){
+        root = temp;
+    }
+    else if(curr == curr->parent->left){
+        curr->parent->left = temp;
+    }
+    else{
+        curr->parent->right = temp;
+    }
+    temp->left = curr->left;
+    curr->left->parent = temp;
+    delete curr;
+}
+
+size_t Tree::calcWeight(Node* ptr) {
+    return (ptr == nullptr ? 0 : ptr->weight);
+}
+
+void Tree::rotate(Node* head, Node* ptr) { 
+    // return if the node to rotate is null
+    if(ptr == nullptr) return;
+
+    // calculate the imbalance of the head node
+    int headImbalance = std::abs(static_cast<int>(calcWeight(head->left) - calcWeight(head->right)));
+
+    // calculate the initial imbalance of the node to rotate
+    int ptrImbalance = std::abs(static_cast<int>(calcWeight(ptr->left) + calcWeight(head->left) + 1 - calcWeight(ptr->right)));
+
+    // if the data of the node to rotate is less than or equal to the head's data, recalculate the imbalance
+    if(ptr->data <= head->data){
+        ptrImbalance = std::abs(static_cast<int>(calcWeight(ptr->right) + calcWeight(head->right) + 1 - calcWeight(ptr->left)));
     }
 
-    // if (ptr->right != NULL && ptr->left != NULL) { // Two child nodes
-    //     // std::string nextGreaterData = lookup(index + 1); // the next data in the array is the next data
-    //     // Node* nextGreaterNode = ptr;
-    //     // while (ptr->data != nextGreaterData) {
-    //     //     if (nextGreaterData < nextGreaterNode->data) {
-    //     //         if (nextGreaterNode->left != NULL) {
-    //     //             nextGreaterNode = nextGreaterNode->left;
-    //     //         } else return;
-    //     //     } else if (nextGreaterData > nextGreaterNode->data) {
-    //     //         if (nextGreaterNode->right != NULL) {
-    //     //             nextGreaterNode = nextGreaterNode->right;
-    //     //         } else return;
-    //     //     } else {
-    //     //         break; // now at the desired node
-    //     //     }
-    //     // }
-    //     // Node* singleChildPtr = NULL;
-    //     // if (nextGreaterNode->left != NULL) { // only one child maximum
-    //     //     singleChildPtr = nextGreaterNode->left;
-    //     // } else if (nextGreaterNode->right != NULL) {
-    //     //     singleChildPtr = nextGreaterNode->right;
-    //     // }
-    //     return; // fix later
-    // }
+    // return if the imbalance of the node to rotate is greater than or equal to the head's imbalance
+    if(ptrImbalance >= headImbalance) return;
 
-    if (ptr->right != NULL) { // Has right child node: A->B->C becomes A->C
-        parentNode->right = ptr->right;
-        delete ptr;
-        numNodes--; // update the count of nodes
-        createArray();
-    } else { // Has left child node: A<-B<-C becomes A<-C
-        parentNode->left = ptr->left;
-        delete ptr;
-        numNodes--; // update the count of nodes
-        createArray();
+    // if the head is the root of the tree, update the root and the parent of the node to rotate
+    if(head == root){
+        ptr->parent = nullptr;
+        root = ptr;
     }
-    delete parentNode;
-    return;
+    else{
+        // update the parent's child pointer and the parent of the node to rotate
+        if(head == head->parent->right){
+            head->parent->right = ptr;
+        }
+        else{
+            head->parent->left = ptr;
+        }
+        ptr->parent = head->parent;
+    }
+
+    // if the node to rotate is the right child of the head
+    if(ptr == head->right){
+        // update the weights of the node to rotate and the head
+        ptr->weight = ptr->weight + calcWeight(head->left) + 1;
+        head->weight = calcWeight(head->left) + calcWeight(ptr->left) + 1;
+
+        // update the parent of the left child of the node to rotate if it exists
+        if(ptr->left != nullptr){
+            ptr->left->parent = head;
+        }
+        // update the right child of the head and the left child of the node to rotate
+        head->right = ptr->left;
+        ptr->left = head;
+    }
+    else{
+        // update the weights of the node to rotate and the head
+        ptr->weight = ptr->weight + calcWeight(head->right) + 1;
+        head->weight = calcWeight(head->right) + calcWeight(ptr->right) + 1;
+
+        // update the parent of the right child of the node to rotate if it exists
+        if(ptr->right != nullptr){
+            ptr->right->parent = head;
+        }
+        // update the left child of the head and the right child of the node to rotate
+        head->left = ptr->right;
+        ptr->right = head;
+    }
+    // update the parent of the head
+    head->parent = ptr;
 }
-
-
-
-
-void Tree::rotate(Node* parent, Node* ptr, const bool side) {
-//     if (ptr == NULL) return; // Handle empty tree case
-//     ptr->calcImbalance(); // Calculate imbalance before rotation
-//     int initialImbalance = ptr->imbalance;
-
-//   // Perform rotation based on side
-//     Node* swapPtr = NULL;
-//     std::cout << "tree before balance: " << std::endl;
-//     print();
-//     if (side == true) { // Right rotation
-//         swapPtr = ptr->left;
-//         rightRotate(ptr);
-//     } else { // Left rotation
-//         swapPtr = ptr->right;
-//         leftRotate(ptr);
-//     }
-    
-//     if (parent != NULL) {
-//     if (side) {
-//         parent->left = swapPtr;
-//     } else {
-//         parent->right = swapPtr;
-//     }
-//     }
-    
-
-//     // calculate imbalance from swappedptr
-
-//     swapPtr->calcImbalance();
-//     int newImbalance = swapPtr->imbalance;
-//     std::cout << "tree after balance: " << std::endl;
-//     if (ptr == root) {
-//      root = swapPtr;
-//     }
-//     print();
-//     if (newImbalance >= initialImbalance) { // only rotate if new imbalance is less than previous
-//         if (side == true) {
-//             leftRotate(swapPtr);
-//             if (parent != NULL) parent->right = ptr;
-//         } else {
-//             rightRotate(swapPtr);
-//             if (parent != NULL) parent->left = ptr;
-//         }
-//         if (swapPtr == root) root = ptr;
-//     }
-    return;
-}
-
-
-
-void Tree::rightRotate(Node* ptr) {
-    Node* tempPtr;
-    tempPtr = ptr->left;
-    ptr->left = tempPtr->right;
-    tempPtr->right = ptr;
-
-}
-
-void Tree::leftRotate(Node* ptr) {
-    Node* tempPtr;
-    tempPtr = ptr->right;
-    ptr->right = tempPtr->left;
-    tempPtr->left = ptr;
-
-}
-
-
-
 
 
 void Tree::insert(const std::string& s){
     // if (root != NULL) std::cout << "old root: " << root->data << std::endl;
-    recursiveInsert(root, s);
+    if (root == nullptr) {
+        Node* newRoot = new Node();
+        newRoot->data = s;
+        root = newRoot;
+    } else {
+        recursiveInsert(root, s);
+        root->weight = numNodes;
+    }
     numNodes++; // update the count of nodes
     createArray();
     // std::cout << "new root: " << root->data << std::endl;
     return;
-}
-void Tree::recursiveInsert(Node* ptr, const std::string& s) {
-    Node* parent = NULL;
-    if (root == NULL) { // if current tree is empty
-        root = createLeaf(s);
-    } else if (s <= ptr->data) {
-        if (ptr->left != NULL) {
-            parent = ptr;
-            recursiveInsert(ptr->left, s);// right rotate after left insertion, vice versa for left rotate
-            rotate(parent, ptr->left, true);
-            return;
+}                            // curr                     input
+Node* Tree::recursiveInsert(Node* ptr, const std::string& s) {
+    Node* temp = nullptr;
+
+    if (s > ptr->data) {
+        if (ptr->right != nullptr) {
+            temp = recursiveInsert(ptr->right, s);
         } else {
-            ptr->left = createLeaf(s);
-            return;
+            temp = new Node();
+            temp->data = s;
+            ptr->right = temp;
+            temp->parent = ptr;
         }
     } else {
-        if (ptr->right != NULL) {
-            recursiveInsert(ptr->right, s);
-            rotate(parent, ptr->right, false);
+        if (ptr->left != nullptr) {
+            temp = recursiveInsert(ptr->left, s);
         } else {
-            ptr->right = createLeaf(s);
-            return;
+            temp = new Node();
+            temp->data = s;
+            ptr->left = temp;
+            temp->parent = ptr;
         }
     }
-    return;
+
+    ptr->weight++;
+    rotate(ptr, s > ptr->data ? ptr->right : ptr->left);
+
+    return temp;
 }

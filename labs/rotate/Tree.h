@@ -2,24 +2,29 @@
 #define TREE_H
 
 #include "Node.h"
-
+#include <cstdlib>
 class Tree {
+  private:
   // Member Variables
   Node*        root; // parent node at the top
   size_t          numNodes;
   std::string*         nodeArray;
 
   // Private Helper Functions
-  void       recursiveInsert(Node* root, const std::string& s);
+  Node*       recursiveInsert(Node* root, const std::string& s);
   void recursivePrint(Node* ptr) const; // easier with a node
-  void        rotate(Node* parent, Node* ptr, const bool side); // true for left, false for right
+  void        rotate(Node* parent, Node* ptr); // true for left, false for right
   // size_t recursiveCount(Node* root);
   bool recursiveContains(Node* root, const std::string& s) const;
   void recursiveClear(Node* ptr);
   void recursiveCreateArray(Node* ptr, std::string* &nodeArray, size_t &index);
-
-  void rightRotate(Node* ptr);
-  void leftRotate(Node* ptr);
+  size_t calcWeight(Node* ptr);
+  
+  // Remove helper functions
+  void handleRootRemoval(Node* curr, Node* temp);
+  void handleNoChildren(Node* curr);
+  void handleOneChild(Node* curr, Node* child);
+  void handleTwoChildren(Node* curr);
 
 public:
   Tree();
