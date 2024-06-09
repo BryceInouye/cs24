@@ -179,17 +179,19 @@ void Tree::remove(size_t index) {
         }
     }
     else{
-        if(curr->left == nullptr && curr->right == nullptr){
-            handleNoChildren(curr);
-        }
-        else if(curr->left == nullptr && curr->right != nullptr){
-            handleOneChild(curr, curr->right);
-        }
-        else if(curr->left != nullptr && curr->right == nullptr){
-            handleOneChild(curr, curr->left);
-        }
-        else {
-            handleTwoChildren(curr);
+        if(curr != nullptr){
+            if(curr->left == nullptr && curr->right == nullptr){
+                handleNoChildren(curr);
+            }
+            else if(curr->left == nullptr && curr->right != nullptr){
+                handleOneChild(curr, curr->right);
+            }
+            else if(curr->left != nullptr && curr->right == nullptr){
+                handleOneChild(curr, curr->left);
+            }
+            else {
+                handleTwoChildren(curr);
+            }
         }
     }
     numNodes--;
