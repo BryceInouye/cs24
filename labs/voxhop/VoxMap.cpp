@@ -284,7 +284,7 @@ Route VoxMap::route(Point src, Point dst) {
         current = path[current]; // if A->B, then path[B] = A
         // std::cout << "new current: " << current << "\n";
       }
-      std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
+      // std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
       return route; 
     }
 
