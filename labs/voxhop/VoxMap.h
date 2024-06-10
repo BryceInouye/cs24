@@ -41,7 +41,7 @@ public:
   bool can_stand(Point& point);
   bool neighbor_valid(Point& point, Point& neighbor);
   Move get_move(Point& parent, Point& child);
-  size_t manhattan_distance(const Point A, const Point B) const; // does not modify values, 
+  int manhattan_distance(const Point A, const Point B) const; // does not modify values, 
   // rather returns the manhattan distance between two points
   // void calc_heuristics(const Point SOURCE, const Point TARGET, Point& point) const; // sets a node's g, h, and f values
 

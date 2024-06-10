@@ -228,7 +228,7 @@ Move VoxMap::get_move(Point& parent, Point& child) {
   }
 }
 
-size_t VoxMap::manhattan_distance(const Point A, const Point B) const {
+int VoxMap::manhattan_distance(const Point A, const Point B) const {
   // returns the Manhattan distance (taxicab geometry)
   // formula: |x1 - x2| + |y1 - y2| + |z1 - z2|
   return abs(A.x - B.x) + abs(A.y - B.y) + abs(A.z - B.z);
