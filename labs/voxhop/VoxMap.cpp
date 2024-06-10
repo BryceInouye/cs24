@@ -227,6 +227,20 @@ Move VoxMap::get_move(Point& parent, Point& child) {
     throw std::invalid_argument("get_move error");
   }
 }
+
+size_t VoxMap::manhattan_distance(const Point A, const Point B) const {
+  // returns the Manhattan distance (taxicab geometry)
+  // formula: |x1 - x2| + |y1 - y2| + |z1 - z2|
+  return abs(A.x - B.x) + abs(A.y - B.y) + abs(A.z - B.z);
+}
+
+// void VoxMap::calc_heuristics(const Point SOURCE, const  Point TARGET, Point& point) const {
+//   // A* helper function that set the g, h, and f values of a node using manhattan distance heuristic
+//   point.g = manhattan_distance(SOURCE, point);
+//   point.h = manhattan_distance(TARGET, point);
+//   point.f = point.g + point.h;
+// }
+
 // 1. Dequeue a point from the queue, call it 'current'
 // 2. Mark 'current' as visited
 // 3. If 'current' is the destination point 'dst', then:
@@ -253,12 +267,12 @@ Route VoxMap::route(Point src, Point dst) {
                                          // where child maps to parent
                                          // and every child has only 1 parent
   std::unordered_set<Point> visited; // set of visited nodes to prevent infinite loops
-  std::queue<Point> q; // set of nodes to visit, no heuristics yet
+  std::priority_queue<Point, std::vector<Point>, std::greater<Point>> q; // set of nodes to visit, with heuristics
   std::unordered_set<Point> waiting; // set of nodes added to the queue
   q.push(src);
   while (!q.empty()) {
     // std::cout << "Outer loop, queue size: " << q.size() << std::endl;
-    Point current = q.front(); // 1.
+    Point current = q.top(); // 1. std::queue front() = std:: prio_queue top() 
     visited.insert(current); // 2.
     q.pop();
 
@@ -270,20 +284,29 @@ Route VoxMap::route(Point src, Point dst) {
         current = path[current]; // if A->B, then path[B] = A
         // std::cout << "new current: " << current << "\n";
       }
-      // std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
+      std::cout << "Route from " << src << " to " << dst << ": "; // show route coordinates for reference
       return route; 
     }
 
     for (Point neighbor : vgraph[current]) { // 4.
     //   std::cout << "  Inner loop, neighbor: " << neighbor << std::endl;
-      if (visited.find(neighbor) == visited.end() && can_stand(neighbor) 
-          && waiting.find(neighbor) == waiting.end()) {
-        q.push(neighbor);
-        waiting.insert(neighbor);
+      if (visited.find(neighbor) != visited.end()) {
+        continue; // skip iteration if visited
+      }
+    // if new path to neighbor is shorter OR neighbor is not visited
+    // new path = manhattan distance from src to current to neighbor
+      if (can_stand(neighbor) && ((current.g + manhattan_distance(current, neighbor) < neighbor.g) 
+      || (waiting.find(neighbor) == waiting.end()))) {
+        neighbor.g = current.g + manhattan_distance(current, neighbor);
+        neighbor.h = manhattan_distance(neighbor, dst);
+        neighbor.f = neighbor.g + neighbor.h;
         path[neighbor] = current; // child -> parent : path[current] = current parent
+        if (waiting.find(neighbor) == waiting.end()) { // if neighbor is not in the queue
+          q.push(neighbor);
+          waiting.insert(neighbor); // queue does not support find() method
+        }
       }
     }
   }
   throw NoRoute(src, dst); // 5.
 }
-

@@ -1,22 +1,23 @@
 #include "Point.h"
 
-  bool Point::operator<(const Point& other) const {
-    if (x != other.x) {
-       return x > other.x;
+  bool Point::operator<(const Point& other) const {  // logic works for a min heap
+    // ties broken in the following order: f, g, h
+    if (f != other.f) {
+      return f < other.f;
     }
-    if (y != other.y)  {
-      return y > other.y;
+    if (g != other.g) {
+      return g < other.g;
     }
-    return z > other.z;
+    return h < other.h;
   }
   bool Point::operator>(const Point& other) const {
-    if (x != other.x) {
-       return x < other.x;
+    if (f != other.f) {
+      return f > other.f;
     }
-    if (y != other.y)  {
-      return y < other.y;
+    if (g != other.g) {
+      return g > other.g;
     }
-    return z < other.z;   
+    return h > other.h;
   }
   bool Point::operator==(const Point& other) const {
     if (x != other.x) {

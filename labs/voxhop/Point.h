@@ -2,14 +2,18 @@
 #define POINT_H
 
 #include <iostream>
-
+#include <climits>
 struct Point {
   int x;
   int y;
   int z;
+// A* heuristics: where...
+  int g; // distance from start
+  int h; // distance to goal
+  int f; // f = g + h (total cost)
 
-  Point() {}
-  Point(int x, int y, int z): x(x), y(y), z(z) {}
+  Point() : g(INT_MAX), h(INT_MAX), f(INT_MAX) {}
+  Point(int x, int y, int z): x(x), y(y), z(z), g(INT_MAX), h(INT_MAX), f(INT_MAX) {}
   bool operator<(const Point& other) const;
   bool operator>(const Point& other) const;
   bool operator==(const Point& other) const;
