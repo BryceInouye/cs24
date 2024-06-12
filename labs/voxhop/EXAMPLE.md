@@ -26,13 +26,12 @@ In contrast, A* (the metal detector) explores the surrounding area but with a tw
 
 <div style="display: flex; justify-content: center;">
     <div style="margin-right: 10px; text-align: center;">
-        <img src="https://i.imgur.com/XR5TY0G.png" alt="Alt text for Image A" width="300">
-        <p>Caption A</p>
+        <img src="https://i.imgur.com/ZlRlGwa.png" alt="Alt text for Image A" width="300">
+        <p>Breadth-first search</p>
     </div>
     <div style="margin-left: 10px; text-align: center;">
-        <img src="https://i.imgur.com/ZlRlGwa.png" alt="Alt text for Image B" width="300">
-        <p>Caption B</p>
+        <img src="https://i.imgur.com/XR5TY0G.png" alt="Alt text for Image B" width="300">
+        <p>A* search</p>
     </div>
 </div>
-
 
