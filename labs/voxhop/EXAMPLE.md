@@ -24,14 +24,15 @@ For instance, let's imagine navigating from Theater and Dance West to the San Di
 
 In contrast, A* (the metal detector) explores the surrounding area but with a twist: it prioritizes areas where the metal detector beeps louder. So, you move in the direction where the beeps get stronger, eventually reaching the zoo, while not going on unnecessary detours. This approach minimizes unnecessary detours by focusing on paths that lead more directly to the destination.
 
-<div style="display: flex;">
-    <div style="flex: 1; margin-right: 10px;">
+<div style="display: flex; justify-content: center;">
+    <div style="margin-right: 10px; text-align: center;">
         <img src="https://i.imgur.com/XR5TY0G.png" alt="Alt text for Image A" width="300">
-        <p style="text-align: center;">Caption A</p>
+        <p>Caption A</p>
     </div>
-    <div style="flex: 1; margin-left: 10px;">
+    <div style="margin-left: 10px; text-align: center;">
         <img src="https://i.imgur.com/ZlRlGwa.png" alt="Alt text for Image B" width="300">
-        <p style="text-align: center;">Caption B</p>
+        <p>Caption B</p>
     </div>
 </div>
+
 
