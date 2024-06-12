@@ -2,7 +2,7 @@
 
 ## World Map Representation
 
-The world map is stored as a 3D `std::vector` of booleans, where each boolean value represents if a voxel is full (`1`) or empty (`0`). Initially, the dimensions of the map are extracted from the input stream, allowing for the initialization of the 3D vector to the correct size.
+The world map is stored as a 3D `std::vector`, which is covered in more detail in the [Data Structures Used](#Data-Structures-Used) section. Initially, the dimensions of the map are extracted from the input stream, allowing for the initialization of the 3D vector to the correct size.
 
 The process of populating the grid involves converting hexadecimal data from the `.vox` file into binary representation. This conversion is executed using a switch statement that iterates through each character in the input stream, converting it to its corresponding hexadecimal value. Each hex value is then translated into a binary representation and used to populate the respective voxel in the 3D vector.
 
@@ -39,8 +39,9 @@ In contrast, A* (the metal detector) explores the surrounding area but with a tw
 
 VoxMap uses several data structures to efficiently represent and manipulate the data.
 
-1. **3D Vector (`std::vector<std::vector<std::vector<bool>>> world;`)** 
-
+1. **3D Vector (`std::vector<std::vector<std::vector<bool>>> world;`)**: A vector is used to represent the world map.
+Because each point has an (x,y,z) value, a 3D vector is the most straightforward way to represent the 3D space. Each
+boolean value within the vector 
 2. **Unordered Map (`std::unordered_map<Point, std::unordered_set<Point>>`)**
 3. **Priority Queue (`std::priority_queue<Point, std::vector<Point>, std::greater<Point>> q`)**
 4. **Unordered Set(`std::unordered_set<Point> visited`)**
