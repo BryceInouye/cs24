@@ -22,7 +22,7 @@ In the A* implementation, each point retains additional data: the Manhattan dist
 
 For instance, let's imagine navigating from Theater and Dance West to the San Diego Zoo. In this analogy, pathfinding with BFS is like using a balloon, while A* is akin to employing a metal detector. With BFS (the balloon), you inflate it at Theater and Dance West, and it expands outward, marking every path it encounters until it reaches the San Diego Zoo. While it finds a short path, it also records routes to irrelevant cities to the search like the Fresno Zoo, which are further from the starting point.
 
-In contrast, A* (the metal detector) explores the surrounding area but with a twist: it prioritizes areas where the metal detector beeps louder. So, you move in the direction where the beeps get stronger, eventually reaching the zoo, while not going on unnecessary detours. This approach minimizes unnecessary detours by focusing on paths that lead more directly to the destination.
+In contrast, A* (the metal detector) explores the surrounding area but with a twist: it prioritizes areas where the metal detector beeps louder. So, you move in the direction where the beeps get stronger, eventually reaching the zoo, while not going on unnecessary detours. This approach minimizes unnecessary detours by focusing on paths that lead more directly to the destination. The pictures below illustrate the areas each pathfinding algorithm would search.
 
 <div style="display: flex; justify-content: center;">
     <div style="margin-right: 10px; text-align: center;">
@@ -35,3 +35,8 @@ In contrast, A* (the metal detector) explores the surrounding area but with a tw
     </div>
 </div>
 
+## Data Structures Used
+
+VoxMap uses several data structures to efficiently represent and manipulate the data.
+
+*1. 3D Vector
