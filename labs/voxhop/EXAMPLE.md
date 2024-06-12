@@ -12,7 +12,7 @@ Once the grid population is complete, the adjacency matrix is constructed to rep
 
 ### Overview
 
-The route queries employ the **A search algorithm**, a pathfinding technique that incorporates heuristics to find the shortest path from a source (src) to a destination (dst). Initially, I implemented **Breadth-First Search (BFS)**, which systematically explores neighboring points until it reaches the destination. To upgrade this to A*, I introduced heuristics, particularly the Manhattan distance, calculated as
+The route queries employ the **A search algorithm**, a pathfinding technique that incorporates heuristics to find the shortest path from a source (src) to a destination (dst). Initially, I implemented **Breadth-First Search (BFS)**, which systematically explores neighboring points until it reaches the destination. To upgrade this to A*, I introduced heuristics, particularly the Manhattan distance, calculated as:
 
 $$|x-x_{0}| + |y-y_{0}| + |z-z_{0}|$$
 
@@ -20,6 +20,8 @@ In the A* implementation, each point retains additional data: the Manhattan dist
 
 ### Example
 
-For instance, let's imagine navigating from Theater and Dance West to the San Diego Zoo. In this analogy, pathfinding with BFS is like using a balloon, while A* is akin to employing a metal detector. With BFS (the balloon), you inflate it at Theater and Dance West, and it expands outward, marking every path it encounters until it reaches the San Diego Zoo. While it finds a short path, it also records routes to unwanted areas, like the Golden Gate Bridge, which are further from the starting point.
+For instance, let's imagine navigating from Theater and Dance West to the San Diego Zoo. In this analogy, pathfinding with BFS is like using a balloon, while A* is akin to employing a metal detector. With BFS (the balloon), you inflate it at Theater and Dance West, and it expands outward, marking every path it encounters until it reaches the San Diego Zoo. While it finds a short path, it also records routes to irrelevant cities to the search like the Fresno Zoo, which are further from the starting point.
 
 In contrast, A* (the metal detector) explores the surrounding area but with a twist: it prioritizes areas where the metal detector beeps louder. So, you move in the direction where the beeps get stronger, eventually reaching the zoo, while not going on unnecessary detours. This approach minimizes unnecessary detours by focusing on paths that lead more directly to the destination.
+
+![Alt text](https://drive.google.com/file/d/1SzQbeFgn-rO3tD3e8Cs7gFRXyFHnfvs0/view?usp=sharing)
