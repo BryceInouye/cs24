@@ -24,4 +24,4 @@ For instance, let's imagine navigating from Theater and Dance West to the San Di
 
 In contrast, A* (the metal detector) explores the surrounding area but with a twist: it prioritizes areas where the metal detector beeps louder. So, you move in the direction where the beeps get stronger, eventually reaching the zoo, while not going on unnecessary detours. This approach minimizes unnecessary detours by focusing on paths that lead more directly to the destination.
 
-![Alt text](https://i.imgur.com/XR5TY0G.png)
+<img src="https://i.imgur.com/XR5TY0G.png" alt="Alt text" width="300">
