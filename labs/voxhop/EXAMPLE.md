@@ -39,4 +39,4 @@ In contrast, A* (the metal detector) explores the surrounding area but with a tw
 
 VoxMap uses several data structures to efficiently represent and manipulate the data.
 
-*1. 3D Vector
+1. 3D Vector
